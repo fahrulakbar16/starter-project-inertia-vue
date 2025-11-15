@@ -34,10 +34,10 @@
                         height="45"
                     />
                     <div class="flex flex-col leading-tight">
-                        <div class="font-bold tracking-wider" :style="primaryColorStyle">
+                        <div class="font-semibold text-base tracking-tight" :style="primaryColorStyle">
                             {{ siteName }}
                         </div>
-                        <div class="text-sm italic" :style="{ color: colors.secondary }">
+                        <div class="text-xs text-gray-500" :style="{ color: colors.secondary }">
                             {{ siteDescription }}
                         </div>
                     </div>
@@ -54,25 +54,21 @@
         <div
             ref="sidebarScroll"
             data-simplebar
-            class="flex overflow-y-auto flex-col px-4 pb-4 h-full duration-300 ease-linear"
+            class="flex overflow-y-auto flex-col px-5 pb-4 h-full duration-300 ease-linear no-scrollbar"
         >
-            <nav class="space-y-1">
+            <nav>
                 <div
-                    :class="[
-                        'flex flex-col',
-                        !isExpanded && !isHovered
-                            ? 'lg:items-center'
-                            : 'items-start',
-                    ]"
                     v-for="(menuGroup, groupIndex) in menuGroups"
                     :key="groupIndex"
+                    class="mb-6"
                 >
-                    <h1
-                        class="flex p-2 text-xs font-bold text-gray-500 uppercase"
+                    <h3
+                        class="mb-4 text-xs uppercase leading-[20px] text-gray-400"
+                        :class="!isExpanded && !isHovered ? 'lg:hidden' : ''"
                     >
                         {{ menuGroup.title }}
-                    </h1>
-                    <ul class="flex flex-col gap-2 w-full">
+                    </h3>
+                    <ul class="flex flex-col gap-4">
                         <li
                             v-for="(item, index) in menuGroup.items"
                             :key="item.name"
@@ -84,69 +80,54 @@
                                 "
                                 @click="toggleSubmenu(groupIndex, index)"
                                 :class="[
-                                    ' flex justify-between items-center w-full gap-2 p-2 font-medium rounded-lg group text-[14px]',
-                                    {
-                                        'dark:bg-opacity-12':
-                                            isSubmenuOpen(groupIndex, index),
-                                        'hover:bg-gray-100 dark:hover:bg-white/5':
-                                            !isSubmenuOpen(groupIndex, index),
-                                    },
-                                    !isExpanded && !isHovered
-                                        ? 'lg:justify-center'
-                                        : 'lg:justify-start',
+                                    'menu-item group w-full',
+                                    isSubmenuOpen(groupIndex, index) || hasActiveSubmenuRoute(groupIndex, index)
+                                        ? 'menu-item-active'
+                                        : 'menu-item-inactive',
+                                    !isExpanded && !isHovered ? 'lg:justify-center' : '',
                                 ]"
-                                :style="isSubmenuOpen(groupIndex, index) ? primaryBgStyle : { color: 'rgb(55, 65, 81)' }"
                                 :data-active="
-                                    isSubmenuOpen(groupIndex, index)
+                                    isSubmenuOpen(groupIndex, index) || hasActiveSubmenuRoute(groupIndex, index)
                                         ? 'true'
                                         : null
                                 "
                             >
-                                <span
+                                <component
+                                    :is="item.icon"
                                     :class="[
-                                        isSubmenuOpen(groupIndex, index)
-                                            ? ''
-                                            : 'text-gray-500 group-hover:text-gray-700 dark:text-gray-300 dark:group-hover:text-gray-300',
+                                        'w-6 h-6',
+                                        isSubmenuOpen(groupIndex, index) || hasActiveSubmenuRoute(groupIndex, index)
+                                            ? 'menu-item-icon-active'
+                                            : 'menu-item-icon-inactive',
                                     ]"
-                                    :style="isSubmenuOpen(groupIndex, index) ? primaryColorStyle : {}"
-                                >
-                                    <component
-                                        :is="item.icon"
-                                        class="w-5 h-5"
-                                    />
-                                </span>
+                                />
                                 <span
-                                    v-if="
-                                        isExpanded || isHovered || isMobileOpen
-                                    "
-                                    class="flex gap-2 items-center"
+                                    v-if="isExpanded || isHovered || isMobileOpen"
+                                    class="menu-item-text"
+                                    :class="!isExpanded && !isHovered ? 'lg:hidden' : ''"
                                 >
-                                    <span :style="isSubmenuOpen(groupIndex, index) ? primaryColorStyle : {}">{{ item.name }}</span>
+                                    {{ item.name }}
                                     <span
                                         v-if="
                                             item.name === 'Daftar Pengajuan' &&
                                             pendingCount > 0
                                         "
-                                        class="px-2 py-0.5 text-xs font-semibold text-white bg-red-500 rounded-full"
+                                        class="ml-2 px-2 py-0.5 text-xs font-semibold text-white bg-red-500 rounded-full"
                                     >
                                         {{ pendingCount }}
                                     </span>
                                 </span>
                                 <ChevronDownIcon
-                                    v-if="
-                                        isExpanded || isHovered || isMobileOpen
-                                    "
+                                    v-if="isExpanded || isHovered || isMobileOpen"
                                     :class="[
-                                        'ml-auto w-5 h-5 transition-transform duration-200',
-                                        {
-                                            'rotate-180':
-                                                isSubmenuOpen(
-                                                    groupIndex,
-                                                    index
-                                                ),
-                                        },
+                                        'menu-item-arrow',
+                                        isSubmenuOpen(groupIndex, index) || hasActiveSubmenuRoute(groupIndex, index)
+                                            ? 'menu-item-arrow-active'
+                                            : 'menu-item-arrow-inactive',
+                                        !isExpanded && !isHovered ? 'lg:hidden' : '',
                                     ]"
-                                    :style="isSubmenuOpen(groupIndex, index) ? primaryColorStyle : {}"
+                                    width="20"
+                                    height="20"
                                 />
                             </button>
                             <Link
@@ -161,26 +142,12 @@
                                 "
                                 @click="openSubmenu = null"
                                 :class="[
-                                    'flex items-center w-full gap-2 p-2 font-medium rounded-lg group text-[14px]',
-                                    {
-                                        'dark:bg-opacity-12':
-                                            isActive(
-                                                item.pathName
-                                                    ? route(item.pathName)
-                                                    : item.path
-                                            ),
-                                        'hover:bg-gray-100 dark:hover:bg-white/5':
-                                            !isActive(
-                                                item.pathName
-                                                    ? route(item.pathName)
-                                                    : item.path
-                                            ),
-                                    },
-                                    !isExpanded && !isHovered
-                                        ? 'lg:justify-center'
-                                        : 'lg:justify-start',
+                                    'menu-item group',
+                                    isActive(item.pathName ? route(item.pathName) : item.path)
+                                        ? 'menu-item-active'
+                                        : 'menu-item-inactive',
+                                    !isExpanded && !isHovered ? 'lg:justify-center' : '',
                                 ]"
-                                :style="isActive(item.pathName ? route(item.pathName) : item.path) ? primaryBgStyle : { color: 'rgb(55, 65, 81)' }"
                                 :data-active="
                                     isActive(
                                         item.pathName
@@ -191,28 +158,19 @@
                                         : null
                                 "
                             >
-                                <span
+                                <component
+                                    :is="item.icon"
                                     :class="[
-                                        (isActive(
-                                            item.pathName
-                                                ? route(item.pathName)
-                                                : item.path
-                                        ) || $page.url.startsWith(item.path))
-                                            ? ''
-                                            : 'text-gray-500 group-hover:text-gray-700 dark:text-gray-300 dark:group-hover:text-gray-300',
+                                        'w-6 h-6',
+                                        isActive(item.pathName ? route(item.pathName) : item.path)
+                                            ? 'menu-item-icon-active'
+                                            : 'menu-item-icon-inactive',
                                     ]"
-                                    :style="(isActive(item.pathName ? route(item.pathName) : item.path) || $page.url.startsWith(item.path)) ? primaryColorStyle : {}"
-                                >
-                                    <component
-                                        :is="item.icon"
-                                        class="w-4 h-4"
-                                    />
-                                </span>
+                                />
                                 <span
-                                    v-if="
-                                        isExpanded || isHovered || isMobileOpen
-                                    "
-                                    :style="(isActive(item.pathName ? route(item.pathName) : item.path) || $page.url.startsWith(item.path)) ? primaryColorStyle : {}"
+                                    v-if="isExpanded || isHovered || isMobileOpen"
+                                    class="menu-item-text"
+                                    :class="!isExpanded && !isHovered ? 'lg:hidden' : ''"
                                 >
                                     {{ item.name }}
                                 </span>
@@ -230,8 +188,14 @@
                                             isHovered ||
                                             isMobileOpen)
                                     "
+                                    class="overflow-hidden transform translate"
                                 >
-                                    <ul class="mt-2 ml-5 space-y-1">
+                                    <ul
+                                        :class="[
+                                            'flex flex-col gap-1 mt-2 menu-dropdown pl-9',
+                                            !isExpanded && !isHovered ? 'lg:hidden' : '',
+                                        ]"
+                                    >
                                         <template
                                             v-for="subItem in item.subItems ||
                                             []"
@@ -252,27 +216,11 @@
                                                             : subItem.path
                                                     "
                                                     :class="[
-                                                        'relative flex items-center gap-2 rounded-lg p-2 font-medium text-[14px]',
-                                                        {
-                                                            'dark:bg-opacity-12':
-                                                                isActive(
-                                                                    subItem.pathName
-                                                                        ? route(
-                                                                              subItem.pathName
-                                                                          )
-                                                                        : subItem.path
-                                                                ),
-                                                            'hover:bg-gray-100 dark:hover:bg-white/5':
-                                                                !isActive(
-                                                                    subItem.pathName
-                                                                        ? route(
-                                                                              subItem.pathName
-                                                                          )
-                                                                        : subItem.path
-                                                                ),
-                                                        },
+                                                        'menu-dropdown-item group',
+                                                        isActive(subItem.pathName ? route(subItem.pathName) : subItem.path)
+                                                            ? 'menu-dropdown-item-active'
+                                                            : 'menu-dropdown-item-inactive',
                                                     ]"
-                                                    :style="isActive(subItem.pathName ? route(subItem.pathName) : subItem.path) ? primaryBgStyle : { color: 'rgb(55, 65, 81)' }"
                                                     :data-active="
                                                         isActive(
                                                             subItem.pathName
@@ -285,23 +233,7 @@
                                                             : null
                                                     "
                                                 >
-                                                    <span
-                                                        :class="[
-                                                            isSubmenuOpen(
-                                                                groupIndex,
-                                                                index
-                                                            )
-                                                                ? ''
-                                                                : 'text-gray-500 group-hover:text-gray-700 dark:text-gray-300 dark:group-hover:text-gray-300',
-                                                        ]"
-                                                        :style="isSubmenuOpen(groupIndex, index) ? primaryColorStyle : {}"
-                                                    >
-                                                    </span>
-                                                    <span
-                                                        :style="isActive(subItem.pathName ? route(subItem.pathName) : subItem.path) ? primaryColorStyle : {}"
-                                                    >
-                                                        {{ subItem?.name }}
-                                                    </span>
+                                                    <span>{{ subItem?.name }}</span>
                                                     <span
                                                         class="flex gap-1 items-center ml-auto"
                                                     >
@@ -609,7 +541,6 @@ import {
 } from "@/Components/icons";
 import BoxCubeIcon from "@/Components/icons/BoxCubeIcon.vue";
 import { useSidebar } from "@/Composables/useSidebar";
-import BarChartIcon from "../icons/BarChartIcon.vue";
 import { computed, ref, onMounted, onBeforeUnmount, nextTick } from "vue";
 import { usePage } from "@inertiajs/vue3";
 import { useAuth } from "@/Composables/useAuth";
@@ -622,8 +553,8 @@ const { colors, withOpacity } = useColors();
 console.log("=== PAGE PROPS ===", page.props.settings);
 // Website settings
 const logoUrl = computed(() => page.props.settings?.logo_main_url || page.props.settings?.logo[1].value || '/images/logo/henskristal.png');
-const siteName = computed(() => page.props.settings?.site_name || page.props.settings?.general[1].value || 'Henskristal');
-const siteDescription = computed(() => page.props.settings?.site_description || page.props.settings?.general[0].value || 'Ice Solution');
+// const siteName = computed(() => page.props.settings?.site_name || page.props.settings?.general[1].value || 'Henskristal');
+// const siteDescription = computed(() => page.props.settings?.site_description || page.props.settings?.general[0].value || 'Ice Solution');
 
 // Computed styles for dynamic colors
 const primaryColorStyle = computed(() => ({
@@ -794,19 +725,19 @@ const isAnySubmenuRouteActive = computed(() => {
     );
 });
 
+const hasActiveSubmenuRoute = (groupIndex, itemIndex) => {
+    const item = menuGroups[groupIndex].items[itemIndex];
+    return item.subItems?.some((subItem) =>
+        isActive(subItem.pathName ? route(subItem.pathName) : subItem.path)
+    ) || false;
+};
+
 const isSubmenuOpen = (groupIndex, itemIndex) => {
     const key = `${groupIndex}-${itemIndex}`;
-    const item = menuGroups[groupIndex].items[itemIndex];
-
-    // Check if any submenu route is active for this specific item
-    const hasActiveSubmenuRoute = item.subItems?.some((subItem) =>
-        isActive(subItem.pathName ? route(subItem.pathName) : subItem.path)
-    );
-
     // Open submenu if:
     // 1. Manually toggled (openSubmenu.value === key), OR
     // 2. Route matches a submenu of this item (auto-open)
-    return openSubmenu.value === key || hasActiveSubmenuRoute;
+    return openSubmenu.value === key || hasActiveSubmenuRoute(groupIndex, itemIndex);
 };
 
 const startTransition = (el) => {

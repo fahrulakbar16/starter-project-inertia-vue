@@ -4,8 +4,8 @@
     <div class="p-6 space-y-6">
         <!-- Header -->
         <div>
-            <h1 class="text-2xl font-bold">Dashboard</h1>
-            <p class="text-gray-500">
+            <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">Dashboard</h1>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
                 Pusat Terpadu untuk Manajemen dan Kustomisasi
             </p>
         </div>
@@ -20,8 +20,8 @@
                     <Users class="w-6 h-6 text-[#1B84FF]" />
                 </div>
                 <div>
-                    <h2 class="text-2xl font-bold">{{ metrics.total_users }}</h2>
-                    <p class="text-gray-500">Total Pengguna</p>
+                    <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">{{ metrics.total_users }}</h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Total Pengguna</p>
                 </div>
             </div>
 
@@ -33,8 +33,8 @@
                     <UserCheck class="w-6 h-6 text-[#10B981]" />
                 </div>
                 <div>
-                    <h2 class="text-2xl font-bold">{{ metrics.active_users }}</h2>
-                    <p class="text-gray-500">Pengguna Aktif</p>
+                    <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">{{ metrics.active_users }}</h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Pengguna Aktif</p>
                 </div>
             </div>
 
@@ -46,8 +46,8 @@
                     <Shield class="w-6 h-6 text-[#F59E0B]" />
                 </div>
                 <div>
-                    <h2 class="text-2xl font-bold">{{ metrics.total_roles }}</h2>
-                    <p class="text-gray-500">Total Jabatan</p>
+                    <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">{{ metrics.total_roles }}</h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Total Jabatan</p>
                 </div>
             </div>
 
@@ -59,8 +59,8 @@
                     <UserCog class="w-6 h-6 text-[#8B5CF6]" />
                 </div>
                 <div>
-                    <h2 class="text-2xl font-bold">{{ metrics.users_with_roles }}</h2>
-                    <p class="text-gray-500">Pengguna dengan Jabatan</p>
+                    <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">{{ metrics.users_with_roles }}</h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Pengguna dengan Jabatan</p>
                 </div>
             </div>
         </div>
