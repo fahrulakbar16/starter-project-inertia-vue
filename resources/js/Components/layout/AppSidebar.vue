@@ -34,10 +34,10 @@
                         height="45"
                     />
                     <div class="flex flex-col leading-tight">
-                        <div class="font-bold tracking-wider text-blue-600">
+                        <div class="font-bold tracking-wider" :style="primaryColorStyle">
                             {{ siteName }}
                         </div>
-                        <div class="text-sm italic text-sky-500">
+                        <div class="text-sm italic" :style="{ color: colors.secondary }">
                             {{ siteDescription }}
                         </div>
                     </div>
@@ -86,15 +86,16 @@
                                 :class="[
                                     ' flex justify-between items-center w-full gap-2 p-2 font-medium rounded-lg group text-[14px]',
                                     {
-                                        'bg-blue-50 text-indigo-500 dark:bg-indigo-500/[0.12] dark:text-blue-400':
+                                        'dark:bg-opacity-12':
                                             isSubmenuOpen(groupIndex, index),
-                                        'text-gray-700 hover:bg-gray-100 group-hover:text-gray-700 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-gray-300':
+                                        'hover:bg-gray-100 dark:hover:bg-white/5':
                                             !isSubmenuOpen(groupIndex, index),
                                     },
                                     !isExpanded && !isHovered
                                         ? 'lg:justify-center'
                                         : 'lg:justify-start',
                                 ]"
+                                :style="isSubmenuOpen(groupIndex, index) ? primaryBgStyle : { color: 'rgb(55, 65, 81)' }"
                                 :data-active="
                                     isSubmenuOpen(groupIndex, index)
                                         ? 'true'
@@ -104,9 +105,10 @@
                                 <span
                                     :class="[
                                         isSubmenuOpen(groupIndex, index)
-                                            ? 'text-indigo-500 dark:text-blue-400'
+                                            ? ''
                                             : 'text-gray-500 group-hover:text-gray-700 dark:text-gray-300 dark:group-hover:text-gray-300',
                                     ]"
+                                    :style="isSubmenuOpen(groupIndex, index) ? primaryColorStyle : {}"
                                 >
                                     <component
                                         :is="item.icon"
@@ -119,7 +121,7 @@
                                     "
                                     class="flex gap-2 items-center"
                                 >
-                                    <span>{{ item.name }}</span>
+                                    <span :style="isSubmenuOpen(groupIndex, index) ? primaryColorStyle : {}">{{ item.name }}</span>
                                     <span
                                         v-if="
                                             item.name === 'Daftar Pengajuan' &&
@@ -137,13 +139,14 @@
                                     :class="[
                                         'ml-auto w-5 h-5 transition-transform duration-200',
                                         {
-                                            'rotate-180 text-indigo-500':
+                                            'rotate-180':
                                                 isSubmenuOpen(
                                                     groupIndex,
                                                     index
                                                 ),
                                         },
                                     ]"
+                                    :style="isSubmenuOpen(groupIndex, index) ? primaryColorStyle : {}"
                                 />
                             </button>
                             <Link
@@ -159,13 +162,13 @@
                                 :class="[
                                     'flex items-center w-full gap-2 p-2 font-medium rounded-lg group text-[14px]',
                                     {
-                                        'bg-blue-100 text-indigo-500 dark:bg-indigo-500/[0.12] dark:text-blue-400':
+                                        'dark:bg-opacity-12':
                                             isActive(
                                                 item.pathName
                                                     ? route(item.pathName)
                                                     : item.path
                                             ),
-                                        'text-gray-700 hover:bg-gray-100 group-hover:text-gray-700 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-gray-300':
+                                        'hover:bg-gray-100 dark:hover:bg-white/5':
                                             !isActive(
                                                 item.pathName
                                                     ? route(item.pathName)
@@ -176,6 +179,7 @@
                                         ? 'lg:justify-center'
                                         : 'lg:justify-start',
                                 ]"
+                                :style="isActive(item.pathName ? route(item.pathName) : item.path) ? primaryBgStyle : { color: 'rgb(55, 65, 81)' }"
                                 :data-active="
                                     isActive(
                                         item.pathName
@@ -188,14 +192,15 @@
                             >
                                 <span
                                     :class="[
-                                        isActive(
+                                        (isActive(
                                             item.pathName
                                                 ? route(item.pathName)
                                                 : item.path
-                                        ) || $page.url.startsWith(item.path)
-                                            ? 'text-indigo-500 dark:text-blue-400'
+                                        ) || $page.url.startsWith(item.path))
+                                            ? ''
                                             : 'text-gray-500 group-hover:text-gray-700 dark:text-gray-300 dark:group-hover:text-gray-300',
                                     ]"
+                                    :style="(isActive(item.pathName ? route(item.pathName) : item.path) || $page.url.startsWith(item.path)) ? primaryColorStyle : {}"
                                 >
                                     <component
                                         :is="item.icon"
@@ -206,8 +211,10 @@
                                     v-if="
                                         isExpanded || isHovered || isMobileOpen
                                     "
-                                    >{{ item.name }}</span
+                                    :style="(isActive(item.pathName ? route(item.pathName) : item.path) || $page.url.startsWith(item.path)) ? primaryColorStyle : {}"
                                 >
+                                    {{ item.name }}
+                                </span>
                             </Link>
                             <transition
                                 @enter="startTransition"
@@ -246,7 +253,7 @@
                                                     :class="[
                                                         'relative flex items-center gap-2 rounded-lg p-2 font-medium text-[14px]',
                                                         {
-                                                            'bg-blue-50 text-indigo-500 dark:bg-indigo-500/[0.12] dark:text-blue-400':
+                                                            'dark:bg-opacity-12':
                                                                 isActive(
                                                                     subItem.pathName
                                                                         ? route(
@@ -254,7 +261,7 @@
                                                                           )
                                                                         : subItem.path
                                                                 ),
-                                                            'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5':
+                                                            'hover:bg-gray-100 dark:hover:bg-white/5':
                                                                 !isActive(
                                                                     subItem.pathName
                                                                         ? route(
@@ -264,6 +271,7 @@
                                                                 ),
                                                         },
                                                     ]"
+                                                    :style="isActive(subItem.pathName ? route(subItem.pathName) : subItem.path) ? primaryBgStyle : { color: 'rgb(55, 65, 81)' }"
                                                     :data-active="
                                                         isActive(
                                                             subItem.pathName
@@ -282,12 +290,17 @@
                                                                 groupIndex,
                                                                 index
                                                             )
-                                                                ? 'text-indigo-500 dark:text-blue-400'
+                                                                ? ''
                                                                 : 'text-gray-500 group-hover:text-gray-700 dark:text-gray-300 dark:group-hover:text-gray-300',
                                                         ]"
+                                                        :style="isSubmenuOpen(groupIndex, index) ? primaryColorStyle : {}"
                                                     >
                                                     </span>
-                                                    {{ subItem?.name }}
+                                                    <span
+                                                        :style="isActive(subItem.pathName ? route(subItem.pathName) : subItem.path) ? primaryColorStyle : {}"
+                                                    >
+                                                        {{ subItem?.name }}
+                                                    </span>
                                                     <span
                                                         class="flex gap-1 items-center ml-auto"
                                                     >
@@ -301,7 +314,7 @@
                                                                 ) > 0
                                                             "
                                                             :class="[
-                                                                'inline-flex min-w-[22px] justify-center rounded-full px-2 py-0.5 text-xs font-semibold',
+                                                                'inline-flex min-w-[22px] justify-center rounded-full px-2 py-0.5 text-xs font-semibold text-white',
                                                                 isActive(
                                                                     subItem.pathName
                                                                         ? route(
@@ -309,9 +322,10 @@
                                                                           )
                                                                         : subItem.path
                                                                 )
-                                                                    ? 'bg-indigo-600 text-white'
-                                                                    : 'bg-red-500 text-white',
+                                                                    ? ''
+                                                                    : 'bg-red-500',
                                                             ]"
+                                                            :style="isActive(subItem.pathName ? route(subItem.pathName) : subItem.path) ? { backgroundColor: colors.primary } : {}"
                                                         >
                                                             {{
                                                                 getPendingCountByType(
@@ -329,7 +343,7 @@
                                                                 ) > 0
                                                             "
                                                             :class="[
-                                                                'inline-flex min-w-[22px] justify-center rounded-full px-2 py-0.5 text-xs font-semibold',
+                                                                'inline-flex min-w-[22px] justify-center rounded-full px-2 py-0.5 text-xs font-semibold text-white',
                                                                 isActive(
                                                                     subItem.pathName
                                                                         ? route(
@@ -337,9 +351,10 @@
                                                                           )
                                                                         : subItem.path
                                                                 )
-                                                                    ? 'bg-indigo-600 text-white'
-                                                                    : 'bg-red-500 text-white',
+                                                                    ? ''
+                                                                    : 'bg-red-500',
                                                             ]"
+                                                            :style="isActive(subItem.pathName ? route(subItem.pathName) : subItem.path) ? { backgroundColor: colors.primary } : {}"
                                                         >
                                                             {{
                                                                 getPendingCountByType(
@@ -357,7 +372,7 @@
                                                                 ) > 0
                                                             "
                                                             :class="[
-                                                                'inline-flex min-w-[22px] justify-center rounded-full px-2 py-0.5 text-xs font-semibold',
+                                                                'inline-flex min-w-[22px] justify-center rounded-full px-2 py-0.5 text-xs font-semibold text-white',
                                                                 isActive(
                                                                     subItem.pathName
                                                                         ? route(
@@ -365,9 +380,10 @@
                                                                           )
                                                                         : subItem.path
                                                                 )
-                                                                    ? 'bg-indigo-600 text-white'
-                                                                    : 'bg-red-500 text-white',
+                                                                    ? ''
+                                                                    : 'bg-red-500',
                                                             ]"
+                                                            :style="isActive(subItem.pathName ? route(subItem.pathName) : subItem.path) ? { backgroundColor: colors.primary } : {}"
                                                         >
                                                             {{
                                                                 getPendingCountByType(
@@ -385,7 +401,7 @@
                                                                 ) > 0
                                                             "
                                                             :class="[
-                                                                'inline-flex min-w-[22px] justify-center rounded-full px-2 py-0.5 text-xs font-semibold',
+                                                                'inline-flex min-w-[22px] justify-center rounded-full px-2 py-0.5 text-xs font-semibold text-white',
                                                                 isActive(
                                                                     subItem.pathName
                                                                         ? route(
@@ -393,9 +409,10 @@
                                                                           )
                                                                         : subItem.path
                                                                 )
-                                                                    ? 'bg-indigo-600 text-white'
-                                                                    : 'bg-red-500 text-white',
+                                                                    ? ''
+                                                                    : 'bg-red-500',
                                                             ]"
+                                                            :style="isActive(subItem.pathName ? route(subItem.pathName) : subItem.path) ? { backgroundColor: colors.primary } : {}"
                                                         >
                                                             {{
                                                                 getPendingCountByType(
@@ -413,7 +430,7 @@
                                                                 ) > 0
                                                             "
                                                             :class="[
-                                                                'inline-flex min-w-[22px] justify-center rounded-full px-2 py-0.5 text-xs font-semibold',
+                                                                'inline-flex min-w-[22px] justify-center rounded-full px-2 py-0.5 text-xs font-semibold text-white',
                                                                 isActive(
                                                                     subItem.pathName
                                                                         ? route(
@@ -421,9 +438,10 @@
                                                                           )
                                                                         : subItem.path
                                                                 )
-                                                                    ? 'bg-indigo-600 text-white'
-                                                                    : 'bg-red-500 text-white',
+                                                                    ? ''
+                                                                    : 'bg-red-500',
                                                             ]"
+                                                            :style="isActive(subItem.pathName ? route(subItem.pathName) : subItem.path) ? { backgroundColor: colors.primary } : {}"
                                                         >
                                                             {{
                                                                 getPendingCountByType(
@@ -441,7 +459,7 @@
                                                                 ) > 0
                                                             "
                                                             :class="[
-                                                                'inline-flex min-w-[22px] justify-center rounded-full px-2 py-0.5 text-xs font-semibold',
+                                                                'inline-flex min-w-[22px] justify-center rounded-full px-2 py-0.5 text-xs font-semibold text-white',
                                                                 isActive(
                                                                     subItem.pathName
                                                                         ? route(
@@ -449,9 +467,10 @@
                                                                           )
                                                                         : subItem.path
                                                                 )
-                                                                    ? 'bg-indigo-600 text-white'
-                                                                    : 'bg-red-500 text-white',
+                                                                    ? ''
+                                                                    : 'bg-red-500',
                                                             ]"
+                                                            :style="isActive(subItem.pathName ? route(subItem.pathName) : subItem.path) ? { backgroundColor: colors.primary } : {}"
                                                         >
                                                             {{
                                                                 getPendingCountByType(
@@ -475,9 +494,10 @@
                                                                           )
                                                                         : subItem.path
                                                                 )
-                                                                    ? 'bg-blue-100 text-indigo-600 dark:bg-indigo-500/20 dark:text-blue-300'
+                                                                    ? ''
                                                                     : 'bg-gray-100 text-gray-700 group-hover:bg-gray-200 dark:bg-white/10 dark:text-gray-300',
                                                             ]"
+                                                            :style="isActive(subItem.pathName ? route(subItem.pathName) : subItem.path) ? { backgroundColor: withOpacity('primary', 0.1), color: colors.primary } : {}"
                                                         >
                                                             {{
                                                                 sidebarCounts.on_progress
@@ -486,17 +506,9 @@
                                                         <span
                                                             v-if="subItem.new"
                                                             :class="[
-                                                                'block rounded-full px-2.5 py-0.5 text-xs font-medium uppercase text-indigo-500 dark:text-blue-400',
+                                                                'block rounded-full px-2.5 py-0.5 text-xs font-medium uppercase',
                                                                 {
-                                                                    'bg-blue-100 dark:bg-indigo-500/20':
-                                                                        isActive(
-                                                                            subItem.pathName
-                                                                                ? route(
-                                                                                      subItem.pathName
-                                                                                  )
-                                                                                : subItem.path
-                                                                        ),
-                                                                    'bg-blue-50 group-hover:bg-blue-100 dark:bg-indigo-500/15 dark:group-hover:bg-indigo-500/20':
+                                                                    'group-hover:bg-opacity-20':
                                                                         !isActive(
                                                                             subItem.pathName
                                                                                 ? route(
@@ -506,23 +518,21 @@
                                                                         ),
                                                                 },
                                                             ]"
+                                                            :style="{
+                                                                color: colors.primary,
+                                                                backgroundColor: isActive(subItem.pathName ? route(subItem.pathName) : subItem.path)
+                                                                    ? withOpacity('primary', 0.1)
+                                                                    : withOpacity('primary', 0.05)
+                                                            }"
                                                         >
                                                             new
                                                         </span>
                                                         <span
                                                             v-if="subItem.pro"
                                                             :class="[
-                                                                'block rounded-full px-2.5 py-0.5 text-xs font-medium uppercase text-indigo-500 dark:text-blue-400',
+                                                                'block rounded-full px-2.5 py-0.5 text-xs font-medium uppercase',
                                                                 {
-                                                                    'bg-blue-100 dark:bg-indigo-500/20':
-                                                                        isActive(
-                                                                            subItem.pathName
-                                                                                ? route(
-                                                                                      subItem.pathName
-                                                                                  )
-                                                                                : subItem.path
-                                                                        ),
-                                                                    'bg-blue-50 group-hover:bg-blue-100 dark:bg-indigo-500/15 dark:group-hover:bg-indigo-500/20':
+                                                                    'group-hover:bg-opacity-20':
                                                                         !isActive(
                                                                             subItem.pathName
                                                                                 ? route(
@@ -532,6 +542,12 @@
                                                                         ),
                                                                 },
                                                             ]"
+                                                            :style="{
+                                                                color: colors.primary,
+                                                                backgroundColor: isActive(subItem.pathName ? route(subItem.pathName) : subItem.path)
+                                                                    ? withOpacity('primary', 0.1)
+                                                                    : withOpacity('primary', 0.05)
+                                                            }"
                                                         >
                                                             pro
                                                         </span>
@@ -596,15 +612,32 @@ import BarChartIcon from "../icons/BarChartIcon.vue";
 import { computed, ref, onMounted, onBeforeUnmount, nextTick } from "vue";
 import { usePage } from "@inertiajs/vue3";
 import { useAuth } from "@/Composables/useAuth";
+import { useColors } from "@/Composables/useColors";
 
 const { user, is, can } = useAuth();
 const page = usePage();
+const { colors, withOpacity } = useColors();
 
 console.log("=== PAGE PROPS ===", page.props.settings);
 // Website settings
 const logoUrl = computed(() => page.props.settings?.logo_main_url || page.props.settings?.logo[1].value || '/images/logo/henskristal.png');
 const siteName = computed(() => page.props.settings?.site_name || page.props.settings?.general[1].value || 'Henskristal');
 const siteDescription = computed(() => page.props.settings?.site_description || page.props.settings?.general[0].value || 'Ice Solution');
+
+// Computed styles for dynamic colors
+const primaryColorStyle = computed(() => ({
+    color: colors.value.primary,
+}));
+
+const primaryBgStyle = computed(() => ({
+    backgroundColor: withOpacity('primary', 0.1),
+    color: colors.value.primary,
+}));
+
+const primaryBgDarkStyle = computed(() => ({
+    backgroundColor: withOpacity('primary', 0.12),
+    color: colors.value.primary,
+}));
 
 const sidebarCounts = computed(
     () => page.props.sidebarCounts || { total: 0, on_progress: 0 }

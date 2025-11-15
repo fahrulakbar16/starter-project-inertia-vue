@@ -6,12 +6,30 @@
     display: none;
 }
 
+/* CSS Variables for dynamic colors */
+:root {
+    --color-primary: #3B82F6;
+    --color-secondary: #8B5CF6;
+    --color-accent: #10B981;
+    --color-success: #10B981;
+    --color-warning: #F59E0B;
+    --color-error: #EF4444;
+    --color-info: #3B82F6;
+    --color-primary-rgb: 59, 130, 246;
+    --color-secondary-rgb: 139, 92, 246;
+    --color-accent-rgb: 16, 185, 129;
+    --color-success-rgb: 16, 185, 129;
+    --color-warning-rgb: 245, 158, 11;
+    --color-error-rgb: 239, 68, 68;
+    --color-info-rgb: 59, 130, 246;
+}
+
 /* Ensure NProgress bar is always visible above headers */
 #nprogress {
     pointer-events: none;
 }
 #nprogress .bar {
-    background: #3b82f6 !important; /* Tailwind indigo-500 */
+    background: var(--color-primary) !important;
     position: fixed !important;
     z-index: 2147483647 !important; /* over everything */
     top: 0 !important;
@@ -20,9 +38,76 @@
     height: 3px !important;
 }
 #nprogress .peg {
-    box-shadow: 0 0 10px #3b82f6, 0 0 5px #3b82f6 !important;
+    box-shadow: 0 0 10px var(--color-primary), 0 0 5px var(--color-primary) !important;
 }
 
 .simplebar-scrollbar::before {
     @apply bg-gray-600 dark:bg-gray-300;
+}
+
+/* Utility classes for dynamic colors */
+.btn-primary {
+    background-color: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+    color: white !important;
+}
+
+.btn-primary:hover {
+    filter: brightness(0.9);
+}
+
+.text-primary {
+    color: var(--color-primary) !important;
+}
+
+.bg-primary {
+    background-color: var(--color-primary) !important;
+}
+
+.border-primary {
+    border-color: var(--color-primary) !important;
+}
+
+.ring-primary {
+    --tw-ring-color: var(--color-primary) !important;
+}
+
+.text-secondary {
+    color: var(--color-secondary) !important;
+}
+
+.bg-secondary {
+    background-color: var(--color-secondary) !important;
+}
+
+.text-success {
+    color: var(--color-success) !important;
+}
+
+.bg-success {
+    background-color: var(--color-success) !important;
+}
+
+.text-warning {
+    color: var(--color-warning) !important;
+}
+
+.bg-warning {
+    background-color: var(--color-warning) !important;
+}
+
+.text-error {
+    color: var(--color-error) !important;
+}
+
+.bg-error {
+    background-color: var(--color-error) !important;
+}
+
+.text-info {
+    color: var(--color-info) !important;
+}
+
+.bg-info {
+    background-color: var(--color-info) !important;
 }

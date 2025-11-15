@@ -3,10 +3,12 @@
         <!-- Success Toast -->
         <div
             v-if="successMessage"
-            class="fixed end-1 top-20 mx-7 my-1.5 z-50 inline-flex items-center gap-x-3 rounded-lg border border-blue-400 bg-white p-2 text-blue-400 shadow"
+            class="fixed end-1 top-20 mx-7 my-1.5 z-50 inline-flex items-center gap-x-3 rounded-lg border bg-white p-2 shadow"
+            :style="successStyle"
         >
             <div
-                class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-200"
+                class="flex h-8 w-8 items-center justify-center rounded-lg"
+                :style="successBgStyle"
             >
                 <svg
                     class="h-5 w-5"
@@ -33,10 +35,12 @@
         <!-- Error Toast -->
         <div
             v-if="errorMessage"
-            class="fixed end-1 top-20 mx-7 my-1.5 z-50 inline-flex items-center gap-x-3 rounded-lg border border-red-400 bg-white p-2 text-red-500 shadow"
+            class="fixed end-1 top-20 mx-7 my-1.5 z-50 inline-flex items-center gap-x-3 rounded-lg border bg-white p-2 shadow"
+            :style="errorStyle"
         >
             <div
-                class="flex h-8 w-8 items-center justify-center rounded-lg bg-red-200"
+                class="flex h-8 w-8 items-center justify-center rounded-lg"
+                :style="errorBgStyle"
             >
                 <svg
                     class="h-5 w-5"
@@ -63,12 +67,34 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import { usePage } from "@inertiajs/vue3";
+import { useColors } from "@/Composables/useColors";
 
 const successMessage = ref("");
 const errorMessage = ref("");
 const page = usePage();
+const { colors, withOpacity } = useColors();
+
+// Computed styles for success alert
+const successStyle = computed(() => ({
+    borderColor: colors.value.success,
+    color: colors.value.success,
+}));
+
+const successBgStyle = computed(() => ({
+    backgroundColor: withOpacity('success', 0.2),
+}));
+
+// Computed styles for error alert
+const errorStyle = computed(() => ({
+    borderColor: colors.value.error,
+    color: colors.value.error,
+}));
+
+const errorBgStyle = computed(() => ({
+    backgroundColor: withOpacity('error', 0.2),
+}));
 
 // Watch flash messages
 watch(

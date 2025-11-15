@@ -79,6 +79,160 @@
                 </div>
             </div>
 
+            <!-- Color Palette Settings -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-lg font-semibold mb-4">Palet Warna Website</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Primary Color -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Warna Utama (Primary)
+                        </label>
+                        <div class="flex items-center gap-3">
+                            <input
+                                v-model="formData.color_primary"
+                                type="color"
+                                class="w-16 h-10 rounded border border-gray-300 cursor-pointer"
+                            />
+                            <input
+                                v-model="formData.color_primary"
+                                type="text"
+                                class="flex-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                placeholder="#3B82F6"
+                                pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Secondary Color -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Warna Sekunder (Secondary)
+                        </label>
+                        <div class="flex items-center gap-3">
+                            <input
+                                v-model="formData.color_secondary"
+                                type="color"
+                                class="w-16 h-10 rounded border border-gray-300 cursor-pointer"
+                            />
+                            <input
+                                v-model="formData.color_secondary"
+                                type="text"
+                                class="flex-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                placeholder="#8B5CF6"
+                                pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Accent Color -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Warna Aksen (Accent)
+                        </label>
+                        <div class="flex items-center gap-3">
+                            <input
+                                v-model="formData.color_accent"
+                                type="color"
+                                class="w-16 h-10 rounded border border-gray-300 cursor-pointer"
+                            />
+                            <input
+                                v-model="formData.color_accent"
+                                type="text"
+                                class="flex-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                placeholder="#10B981"
+                                pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Success Color -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Warna Sukses
+                        </label>
+                        <div class="flex items-center gap-3">
+                            <input
+                                v-model="formData.color_success"
+                                type="color"
+                                class="w-16 h-10 rounded border border-gray-300 cursor-pointer"
+                            />
+                            <input
+                                v-model="formData.color_success"
+                                type="text"
+                                class="flex-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                placeholder="#10B981"
+                                pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Warning Color -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Warna Peringatan
+                        </label>
+                        <div class="flex items-center gap-3">
+                            <input
+                                v-model="formData.color_warning"
+                                type="color"
+                                class="w-16 h-10 rounded border border-gray-300 cursor-pointer"
+                            />
+                            <input
+                                v-model="formData.color_warning"
+                                type="text"
+                                class="flex-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                placeholder="#F59E0B"
+                                pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Error Color -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Warna Error
+                        </label>
+                        <div class="flex items-center gap-3">
+                            <input
+                                v-model="formData.color_error"
+                                type="color"
+                                class="w-16 h-10 rounded border border-gray-300 cursor-pointer"
+                            />
+                            <input
+                                v-model="formData.color_error"
+                                type="text"
+                                class="flex-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                placeholder="#EF4444"
+                                pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Info Color -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Warna Informasi
+                        </label>
+                        <div class="flex items-center gap-3">
+                            <input
+                                v-model="formData.color_info"
+                                type="color"
+                                class="w-16 h-10 rounded border border-gray-300 cursor-pointer"
+                            />
+                            <input
+                                v-model="formData.color_info"
+                                type="text"
+                                class="flex-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                placeholder="#3B82F6"
+                                pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- General Settings -->
             <div class="bg-white rounded-lg shadow p-6">
                 <h2 class="text-lg font-semibold mb-4">Pengaturan Umum</h2>
@@ -158,7 +312,10 @@
                 <button
                     type="submit"
                     :disabled="form.processing"
-                    class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-50"
+                    :style="{ backgroundColor: colors.primary }"
+                    class="px-4 py-2 text-sm font-medium text-white rounded-md disabled:opacity-50 transition-colors"
+                    @mouseenter="$event.target.style.filter = 'brightness(0.9)'"
+                    @mouseleave="$event.target.style.filter = ''"
                 >
                     {{ form.processing ? 'Menyimpan...' : 'Simpan Pengaturan' }}
                 </button>
@@ -171,6 +328,7 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { Head, useForm, router } from "@inertiajs/vue3";
 import { ref, onMounted, watch } from "vue";
+import { useColors } from "@/Composables/useColors";
 
 defineOptions({
     layout: AppLayout,
@@ -179,6 +337,8 @@ defineOptions({
 const props = defineProps({
     settings: Object,
 });
+
+const { colors } = useColors();
 
 // Initialize form data from settings
 const formData = ref({
@@ -189,6 +349,13 @@ const formData = ref({
     contact_email: '',
     contact_phone: '',
     contact_address: '',
+    color_primary: '#3B82F6',
+    color_secondary: '#8B5CF6',
+    color_accent: '#10B981',
+    color_success: '#10B981',
+    color_warning: '#F59E0B',
+    color_error: '#EF4444',
+    color_info: '#3B82F6',
 });
 
 // Track uploaded files
@@ -218,6 +385,20 @@ const loadSettings = () => {
                     formData.value.contact_phone = setting.value || '';
                 } else if (setting.key === 'contact_address') {
                     formData.value.contact_address = setting.value || '';
+                } else if (setting.key === 'color_primary') {
+                    formData.value.color_primary = setting.value || '#3B82F6';
+                } else if (setting.key === 'color_secondary') {
+                    formData.value.color_secondary = setting.value || '#8B5CF6';
+                } else if (setting.key === 'color_accent') {
+                    formData.value.color_accent = setting.value || '#10B981';
+                } else if (setting.key === 'color_success') {
+                    formData.value.color_success = setting.value || '#10B981';
+                } else if (setting.key === 'color_warning') {
+                    formData.value.color_warning = setting.value || '#F59E0B';
+                } else if (setting.key === 'color_error') {
+                    formData.value.color_error = setting.value || '#EF4444';
+                } else if (setting.key === 'color_info') {
+                    formData.value.color_info = setting.value || '#3B82F6';
                 }
             });
         });
@@ -271,7 +452,20 @@ const submitForm = () => {
     const settingsArray = [];
 
     // Handle text fields
-    const textFields = ['site_name', 'site_description', 'contact_email', 'contact_phone', 'contact_address'];
+    const textFields = [
+        'site_name',
+        'site_description',
+        'contact_email',
+        'contact_phone',
+        'contact_address',
+        'color_primary',
+        'color_secondary',
+        'color_accent',
+        'color_success',
+        'color_warning',
+        'color_error',
+        'color_info',
+    ];
     textFields.forEach(key => {
         settingsArray.push({
             key: key,
@@ -354,6 +548,20 @@ const resetForm = () => {
                     formData.value.contact_phone = setting.value || '';
                 } else if (setting.key === 'contact_address') {
                     formData.value.contact_address = setting.value || '';
+                } else if (setting.key === 'color_primary') {
+                    formData.value.color_primary = setting.value || '#3B82F6';
+                } else if (setting.key === 'color_secondary') {
+                    formData.value.color_secondary = setting.value || '#8B5CF6';
+                } else if (setting.key === 'color_accent') {
+                    formData.value.color_accent = setting.value || '#10B981';
+                } else if (setting.key === 'color_success') {
+                    formData.value.color_success = setting.value || '#10B981';
+                } else if (setting.key === 'color_warning') {
+                    formData.value.color_warning = setting.value || '#F59E0B';
+                } else if (setting.key === 'color_error') {
+                    formData.value.color_error = setting.value || '#EF4444';
+                } else if (setting.key === 'color_info') {
+                    formData.value.color_info = setting.value || '#3B82F6';
                 }
             });
         });

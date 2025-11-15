@@ -41,12 +41,15 @@ class SettingController extends Controller
             if (!$key) continue;
 
             $setting = Setting::where('key', $key)->first();
-            
+
             if (!$setting) {
                 // Determine type and group based on key
                 $type = str_starts_with($key, 'logo_') ? 'image' : 'text';
-                $group = str_starts_with($key, 'logo_') ? 'logo' : (str_starts_with($key, 'contact_') ? 'contact' : 'general');
-                
+                $group = str_starts_with($key, 'logo_') ? 'logo'
+                    : (str_starts_with($key, 'contact_') ? 'contact'
+                    : (str_starts_with($key, 'color_') ? 'color'
+                    : 'general'));
+
                 $setting = Setting::create([
                     'key' => $key,
                     'type' => $type,
@@ -61,7 +64,7 @@ class SettingController extends Controller
                 // Check if it's a file upload
                 if ($request->hasFile("settings.{$index}.value")) {
                     $file = $request->file("settings.{$index}.value");
-                    
+
                     // Delete old image if exists
                     if ($setting->value) {
                         Storage::disk('public')->delete($setting->value);
@@ -146,6 +149,55 @@ class SettingController extends Controller
                 'type' => 'text',
                 'group' => 'contact',
                 'description' => 'Alamat kontak',
+            ],
+            [
+                'key' => 'color_primary',
+                'value' => '#3B82F6',
+                'type' => 'text',
+                'group' => 'color',
+                'description' => 'Warna utama (Primary)',
+            ],
+            [
+                'key' => 'color_secondary',
+                'value' => '#8B5CF6',
+                'type' => 'text',
+                'group' => 'color',
+                'description' => 'Warna sekunder (Secondary)',
+            ],
+            [
+                'key' => 'color_accent',
+                'value' => '#10B981',
+                'type' => 'text',
+                'group' => 'color',
+                'description' => 'Warna aksen (Accent)',
+            ],
+            [
+                'key' => 'color_success',
+                'value' => '#10B981',
+                'type' => 'text',
+                'group' => 'color',
+                'description' => 'Warna sukses',
+            ],
+            [
+                'key' => 'color_warning',
+                'value' => '#F59E0B',
+                'type' => 'text',
+                'group' => 'color',
+                'description' => 'Warna peringatan',
+            ],
+            [
+                'key' => 'color_error',
+                'value' => '#EF4444',
+                'type' => 'text',
+                'group' => 'color',
+                'description' => 'Warna error',
+            ],
+            [
+                'key' => 'color_info',
+                'value' => '#3B82F6',
+                'type' => 'text',
+                'group' => 'color',
+                'description' => 'Warna informasi',
             ],
         ];
 

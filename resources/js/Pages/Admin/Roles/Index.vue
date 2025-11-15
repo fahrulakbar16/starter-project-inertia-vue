@@ -7,7 +7,7 @@
             <button
                 v-if="can('roles.create')"
                 @click="openAddModal"
-                class="inline-flex items-center gap-2 text-white hover:text-blue-500 rounded-md border hover:border-gray-300 bg-blue-500 px-3 py-2 text-sm font-medium hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200"
+                class="inline-flex items-center gap-2 text-white rounded-md border hover:border-gray-300 btn-primary px-3 py-2 text-sm font-medium hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200"
             >
                 <PlusSquareIcon />
                 <span class="hidden text-sm md:block">Tambah Jabatan Baru</span>
@@ -236,7 +236,7 @@
                                 >
                                     <p
                                         class="font-medium text-gray-800 dark:text-white/90"
-                                        :class="{'cursor-pointer hover:text-blue-600': can('roles.view')}"
+                                        :class="{'cursor-pointer hover:text-primary': can('roles.view')}"
                                     >
                                         {{ role.name }}
                                     </p>
@@ -278,7 +278,7 @@
                                 >
                                     <p 
                                         class="cursor-pointer dark:text-blue-400"
-                                        :class="can('roles.view') ? 'text-blue-600 hover:underline' : 'text-gray-600'"
+                                        :class="can('roles.view') ? 'text-primary hover:underline' : 'text-gray-600'"
                                     >
                                         {{ role.total }} pengguna
                                     </p>
@@ -293,7 +293,7 @@
                                 >
                                     <p 
                                         class="cursor-pointer dark:text-blue-400"
-                                        :class="can('roles.view') ? 'text-blue-600 hover:underline' : 'text-gray-600'"
+                                        :class="can('roles.view') ? 'text-primary hover:underline' : 'text-gray-600'"
                                     >
                                         {{ role.access }} akses
                                     </p>
@@ -309,7 +309,7 @@
                                     <Link 
                                         v-if="can('roles.edit')"
                                         :href="route('roles.edit', role.id)"
-                                        class="text-blue-500 hover:text-blue-600"
+                                        class="text-primary hover:text-primary"
                                         title="Kelola Hak Akses"
                                     >
                                         <GearIcon />
@@ -358,14 +358,14 @@
                         <div class="flex gap-2 border-b">
                             <button
                                 class="px-3 py-2 text-sm font-medium"
-                                :class="activeStatsTab === 'users' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500'"
+                                :class="activeStatsTab === 'users' ? 'text-primary border-b-2 border-primary' : 'text-gray-500'"
                                 @click="activeStatsTab = 'users'"
                             >
                                 Daftar Pengguna ({{ statsUsers.length }})
                             </button>
                             <button
                                 class="px-3 py-2 text-sm font-medium"
-                                :class="activeStatsTab === 'permissions' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500'"
+                                :class="activeStatsTab === 'permissions' ? 'text-primary border-b-2 border-primary' : 'text-gray-500'"
                                 @click="activeStatsTab = 'permissions'"
                             >
                                 Daftar Hak Akses ({{ statsPermissions.length }})

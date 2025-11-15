@@ -2,6 +2,7 @@
 import { ref, onBeforeUnmount, computed } from "vue";
 import { useForm, usePage, router } from "@inertiajs/vue3";
 import Swal from "sweetalert2";
+import { useColors } from "@/Composables/useColors";
 
 // Terima user via props (opsional) agar kompatibel dengan pemanggilan dari Show.vue
 const props = defineProps({
@@ -9,6 +10,7 @@ const props = defineProps({
 });
 
 const page = usePage();
+const { colors, withOpacity } = useColors();
 const user = computed(() => props.user ?? page.props.auth?.user ?? {});
 
 const isEditing = ref(false);
@@ -153,7 +155,7 @@ async function submitAll() {
                     v-if="!isEditing"
                     type="button"
                     @click="startEdit"
-                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
+                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-white rounded-md btn-primary"
                 >
                     Ubah Profile
                 </button>
@@ -170,7 +172,9 @@ async function submitAll() {
                 class="flex flex-col items-center justify-center gap-4 p-8 border-b lg:border-b-0 lg:border-r"
             >
                 <div
-                    class="flex items-center justify-center w-56 h-56 overflow-hidden rounded-full bg-blue-50 ring-1 ring-blue-100"
+                    class="flex items-center justify-center w-56 h-56 overflow-hidden rounded-full"
+                    :style="{ backgroundColor: withOpacity('primary', 0.1), borderColor: withOpacity('primary', 0.2) }"
+                    style="border: 1px solid"
                 >
                     <img
                         v-if="user?.profile_photo_url"
@@ -180,7 +184,8 @@ async function submitAll() {
                     />
                     <span
                         v-else
-                        class="text-6xl font-semibold text-blue-500 select-none"
+                        class="text-6xl font-semibold select-none"
+                        :style="{ color: colors.primary }"
                     >
                         {{
                             (user?.name || user?.username || "?")
@@ -250,7 +255,9 @@ async function submitAll() {
                 class="flex flex-col items-center justify-center gap-4 p-8 border-b lg:border-b-0 lg:border-r"
             >
                 <div
-                    class="flex items-center justify-center w-56 h-56 overflow-hidden rounded-full bg-blue-50 ring-1 ring-blue-100"
+                    class="flex items-center justify-center w-56 h-56 overflow-hidden rounded-full"
+                    :style="{ backgroundColor: withOpacity('primary', 0.1), borderColor: withOpacity('primary', 0.2) }"
+                    style="border: 1px solid"
                 >
                     <img
                         v-if="photoPreview"
@@ -260,7 +267,8 @@ async function submitAll() {
                     />
                     <span
                         v-else
-                        class="text-6xl font-semibold text-blue-500 select-none"
+                        class="text-6xl font-semibold select-none"
+                        :style="{ color: colors.primary }"
                     >
                         {{
                             (user?.name || user?.username || "?")
@@ -394,7 +402,7 @@ async function submitAll() {
                         <button
                             type="submit"
                             :disabled="submitting"
-                            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-50"
+                            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white rounded-md btn-primary disabled:opacity-50"
                         >
                             {{ submitting ? "Updating..." : "Update Profile" }}
                         </button>

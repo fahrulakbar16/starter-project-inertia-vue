@@ -49,6 +49,13 @@ class HandleInertiaRequests extends Middleware
             'contact_email' => Setting::get('contact_email'),
             'contact_phone' => Setting::get('contact_phone'),
             'contact_address' => Setting::get('contact_address'),
+            'color_primary' => Setting::get('color_primary', '#3B82F6'),
+            'color_secondary' => Setting::get('color_secondary', '#8B5CF6'),
+            'color_accent' => Setting::get('color_accent', '#10B981'),
+            'color_success' => Setting::get('color_success', '#10B981'),
+            'color_warning' => Setting::get('color_warning', '#F59E0B'),
+            'color_error' => Setting::get('color_error', '#EF4444'),
+            'color_info' => Setting::get('color_info', '#3B82F6'),
         ];
 
         // Format logo URLs

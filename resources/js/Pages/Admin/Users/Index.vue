@@ -8,7 +8,7 @@
                 v-if="can('users.create')"
                 @click="openAddModal"
                 type="button"
-                class="flex gap-2 items-center px-3 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
+                class="flex gap-2 items-center px-3 py-2 text-white rounded btn-primary"
             >
                 <PlusSquareIcon />
                 <span class="hidden text-sm md:block">Tambah Pengguna</span>
@@ -63,14 +63,14 @@
                         :class="[
                             'px-4 py-2 text-sm font-medium border-b-2 transition-colors',
                             statusFilter === 'all'
-                                ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                                ? 'border-primary text-primary'
                                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300',
                         ]"
                     >
                         Semua
                         <span
                             v-if="statusFilter === 'all'"
-                            class="px-2 py-0.5 ml-2 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300"
+                            class="px-2 py-0.5 ml-2 text-xs text-primary bg-primary/10 rounded-full"
                         >
                             {{ getStatusCount('all') }}
                         </span>
