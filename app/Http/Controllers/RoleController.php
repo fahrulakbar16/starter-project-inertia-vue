@@ -2,9 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Throwable;
+use App\Actions\Role\DeleteRoleAction;
+use App\Actions\Role\GetRoleStatsAction;
+use App\Actions\Role\GetRolesAction;
+use App\Actions\Role\StoreRoleAction;
+use App\Actions\Role\UpdateRoleAction;
+use App\Actions\Role\UpdateRolePermissionsAction;
+use App\Http\Requests\Role\StoreRoleRequest;
+use App\Http\Requests\Role\UpdateRolePermissionsRequest;
+use App\Http\Requests\Role\UpdateRoleRequest;
+use App\Http\Resources\RoleResource;
 use App\Models\Role;
-use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -12,15 +20,6 @@ use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
-    protected $role;
-    protected $user;
-
-    public function __construct(Role $role, User $user)
-    {
-        $this->role = $role;
-        $this->user = $user;
-    }
-
     /**
      * Display a listing of the resource.
      */
@@ -30,19 +29,16 @@ class RoleController extends Controller
 
         $sortBy = $request->get('sortBy', 'created_at');
         $sortDirection = $request->get('sortDirection', 'desc');
-
         $search = $request->input('search');
-        $perPage = $request->input('per_page', 10);
 
-        $roles = Role::withCount(['users as total', 'permissions as access'])
-            ->when($search, function ($query, $search) {
-                $query->where('name', 'like', "%{$search}%");
-            })
-            ->orderBy($sortBy, $sortDirection)
-            ->paginate($perPage)
-            ->withQueryString();
+        $roles = app(GetRolesAction::class)->execute($request);
 
-        return Inertia::render('Admin/Roles/Index', compact('roles', 'sortBy', 'sortDirection', 'search'));
+        return Inertia::render('Admin/Roles/Index', [
+            'roles' => $roles,
+            'sortBy' => $sortBy,
+            'sortDirection' => $sortDirection,
+            'search' => $search,
+        ]);
     }
 
     /**
@@ -58,23 +54,11 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRoleRequest $request)
     {
         abort_unless(Gate::allows('roles.create'), 403, 'Anda tidak memiliki akses untuk menambah jabatan');
 
-        $data = $request->validate([
-            'name' => ['required','string','max:255'],
-            'leave_quota_per_year' => ['nullable','integer','min:0'],
-            'loan_quota' => ['nullable','numeric','min:0'],
-        ]);
-
-        $payload = [
-            'name' => $data['name'],
-            'leave_quota_per_year' => $data['leave_quota_per_year'] ?? 0,
-            'loan_quota' => $data['loan_quota'] ?? 0,
-        ];
-
-        Role::create($payload);
+        app(StoreRoleAction::class)->execute($request->validated());
 
         return redirect()->back()->with('success', 'Peran berhasil ditambahkan');
     }
@@ -99,7 +83,7 @@ class RoleController extends Controller
         $permissions = Permission::all()->groupBy('group_name');
 
         return Inertia::render('Admin/Roles/Edit', [
-            'role' => $role->load('permissions'),
+            'role' => (new RoleResource($role->load('permissions')))->resolve(),
             'permissions' => $permissions,
         ]);
     }
@@ -119,36 +103,23 @@ class RoleController extends Controller
                 'checked' => 'required|boolean',
             ]);
 
-            $permissionIds = $validated['permission_ids'];
-            $checked = $validated['checked'];
-
-            $permissions = \Spatie\Permission\Models\Permission::whereIn('id', $permissionIds)->get();
-
-            if ($checked) {
-                $role->givePermissionTo($permissions);
-            } else {
-                foreach ($permissions as $permission) {
-                    $role->revokePermissionTo($permission);
-                }
-            }
-
-            app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+            app(UpdateRolePermissionsAction::class)->execute(
+                $role,
+                $validated['permission_ids'],
+                $validated['checked']
+            );
 
             return back()->with('success', 'Hak akses berhasil diperbarui');
         }
 
         // Otherwise update basic fields (name + quotas)
         $data = $request->validate([
-            'name' => ['required','string','max:255'],
-            'leave_quota_per_year' => ['nullable','integer','min:0'],
-            'loan_quota' => ['nullable','numeric','min:0'],
+            'name' => ['required', 'string', 'max:255'],
+            'leave_quota_per_year' => ['nullable', 'integer', 'min:0'],
+            'loan_quota' => ['nullable', 'numeric', 'min:0'],
         ]);
 
-        $role->update([
-            'name' => $data['name'],
-            'leave_quota_per_year' => $data['leave_quota_per_year'] ?? ($role->leave_quota_per_year ?? 0),
-            'loan_quota' => $data['loan_quota'] ?? ($role->loan_quota ?? 0),
-        ]);
+        app(UpdateRoleAction::class)->execute($role, $data);
 
         return back()->with('success', 'Jabatan berhasil diperbarui');
     }
@@ -161,14 +132,10 @@ class RoleController extends Controller
         abort_unless(Gate::allows('roles.delete'), 403, 'Anda tidak memiliki akses untuk menghapus jabatan');
 
         try {
-            if ($role->users()->exists()) {
-                return redirect()->back()->with('error', 'Peran memiliki pengguna.');
-            }
-
-            $role->delete();
+            app(DeleteRoleAction::class)->execute($role);
 
             return redirect()->back()->with('success', 'Peran berhasil dihapus');
-        } catch (Throwable $e) {
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus peran: ' . $e->getMessage());
         }
     }
@@ -180,24 +147,8 @@ class RoleController extends Controller
     {
         abort_unless(Gate::allows('roles.view'), 403, 'Anda tidak memiliki akses untuk melihat statistik jabatan');
 
-        $users = $role->users()
-            ->select('id', 'name', 'email', 'username')
-            ->orderBy('name')
-            ->get();
+        $stats = app(GetRoleStatsAction::class)->execute($role);
 
-        $permissions = $role->permissions()
-            ->select('id', 'name', 'display_name', 'group_name')
-            ->orderBy('group_name')
-            ->orderBy('name')
-            ->get();
-
-        return response()->json([
-            'role' => [
-                'id' => $role->id,
-                'name' => $role->name,
-            ],
-            'users' => $users,
-            'permissions' => $permissions,
-        ]);
+        return response()->json($stats);
     }
 }

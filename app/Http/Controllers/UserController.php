@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\User\DeleteUserAction;
+use App\Actions\User\GetUsersAction;
+use App\Actions\User\StoreUserAction;
+use App\Actions\User\UpdateUserAction;
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Role;
@@ -18,7 +22,6 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        // Check permission
         abort_unless(Gate::allows('users.view'), 403, 'Anda tidak memiliki akses untuk melihat data pengguna');
 
         $sortBy = $request->get('sortBy', 'created_at');
@@ -26,88 +29,10 @@ class UserController extends Controller
         $search = $request->input('search');
         $role = $request->input('role');
         $status = $request->input('status');
-        $perPage = $request->input('per_page', 10);
-        if ($status == "all") {
-            $status = null;
-        }
-        $users = User::with('roles')
-            ->when($search, function ($query, $search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('name', 'like', "%{$search}%")
-                      ->orWhere('email', 'like', "%{$search}%")
-                      ->orWhere('username', 'like', "%{$search}%");
-                });
-            })
-            ->when($role, function ($query, $role) {
-                $query->whereHas('roles', function ($q) use ($role) {
-                    $q->where('name', $role);
-                });
-            })
-            ->when($status, function ($query, $status) {
-                $query->where('status', $status);
-            })
-            ->orderBy($sortBy, $sortDirection)
-            ->paginate($perPage)
-            ->withQueryString();
 
-        // Get counts for status tabs
-        $statusCounts = [
-            'all' => User::when($search, function ($query, $search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('name', 'like', "%{$search}%")
-                      ->orWhere('email', 'like', "%{$search}%")
-                      ->orWhere('username', 'like', "%{$search}%");
-                });
-            })
-            ->when($role, function ($query, $role) {
-                $query->whereHas('roles', function ($q) use ($role) {
-                    $q->where('name', $role);
-                });
-            })
-            ->count(),
-            'active' => User::when($search, function ($query, $search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('name', 'like', "%{$search}%")
-                      ->orWhere('email', 'like', "%{$search}%")
-                      ->orWhere('username', 'like', "%{$search}%");
-                });
-            })
-            ->when($role, function ($query, $role) {
-                $query->whereHas('roles', function ($q) use ($role) {
-                    $q->where('name', $role);
-                });
-            })
-            ->where('status', 'active')
-            ->count(),
-            'pending' => User::when($search, function ($query, $search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('name', 'like', "%{$search}%")
-                      ->orWhere('email', 'like', "%{$search}%")
-                      ->orWhere('username', 'like', "%{$search}%");
-                });
-            })
-            ->when($role, function ($query, $role) {
-                $query->whereHas('roles', function ($q) use ($role) {
-                    $q->where('name', $role);
-                });
-            })
-            ->where('status', 'pending')
-            ->count(),
-            'inactive' => User::when($search, function ($query, $search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('name', 'like', "%{$search}%")
-                      ->orWhere('email', 'like', "%{$search}%")
-                      ->orWhere('username', 'like', "%{$search}%");
-                });
-            })
-            ->when($role, function ($query, $role) {
-                $query->whereHas('roles', function ($q) use ($role) {
-                    $q->where('name', $role);
-                });
-            })
-            ->where('status', 'inactive')
-            ->count(),
-        ];
+        $result = app(GetUsersAction::class)->execute($request);
+        $users = $result['users'];
+        $statusCounts = $result['statusCounts'];
 
         $roles = Role::all();
 
@@ -140,28 +65,11 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
         abort_unless(Gate::allows('users.create'), 403, 'Anda tidak memiliki akses untuk menambah pengguna');
 
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255', 'unique:users,username'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-            'role' => ['required', 'string', 'exists:roles,name'],
-            'status' => ['required', 'string', 'in:active,inactive,pending'],
-        ]);
-
-        $user = User::create([
-            'name' => $validated['name'],
-            'username' => $validated['username'],
-            'email' => $validated['email'],
-            'status' => $validated['status'],
-            'password' => Hash::make('password'), // Default password
-        ]);
-
-        // Assign role
-        $user->assignRole($validated['role']);
+        app(StoreUserAction::class)->execute($request->validated());
 
         return redirect()->back()->with('success', 'Pengguna berhasil ditambahkan');
     }
@@ -176,7 +84,7 @@ class UserController extends Controller
         $user->load('roles', 'permissions');
 
         return Inertia::render('Admin/Users/Show', [
-            'user' => $user,
+            'user' => (new UserResource($user))->resolve(),
         ]);
     }
 
@@ -191,7 +99,7 @@ class UserController extends Controller
         $roles = Role::all();
 
         return Inertia::render('Admin/Users/Edit', [
-            'user' => $user,
+            'user' => (new UserResource($user))->resolve(),
             'roles' => $roles,
         ]);
     }
@@ -199,27 +107,11 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
         abort_unless(Gate::allows('users.edit'), 403, 'Anda tidak memiliki akses untuk mengubah pengguna');
 
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'role' => ['required', 'string', 'exists:roles,name'],
-            'status' => ['required', 'string', 'in:active,inactive,pending'],
-        ]);
-
-        $user->update([
-            'name' => $validated['name'],
-            'username' => $validated['username'],
-            'email' => $validated['email'],
-            'status' => $validated['status'],
-        ]);
-
-        // Sync role
-        $user->syncRoles([$validated['role']]);
+        app(UpdateUserAction::class)->execute($user, $request->validated());
 
         return redirect()->back()->with('success', 'Pengguna berhasil diperbarui');
     }
@@ -232,12 +124,7 @@ class UserController extends Controller
         abort_unless(Gate::allows('users.delete'), 403, 'Anda tidak memiliki akses untuk menghapus pengguna');
 
         try {
-            // Cek apakah user yang akan dihapus adalah user yang sedang login
-            if ($user->id === Auth::id()) {
-                return redirect()->back()->with('error', 'Tidak dapat menghapus akun sendiri');
-            }
-
-            $user->delete();
+            app(DeleteUserAction::class)->execute($user);
 
             return redirect()->back()->with('success', 'Pengguna berhasil dihapus');
         } catch (\Exception $e) {
