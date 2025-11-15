@@ -159,6 +159,7 @@
                                         ? route(item.pathName)
                                         : item.path
                                 "
+                                @click="openSubmenu = null"
                                 :class="[
                                     'flex items-center w-full gap-2 p-2 font-medium rounded-lg group text-[14px]',
                                     {
@@ -703,7 +704,13 @@ function scrollActiveIntoView() {
 }
 
 function onInertiaFinish() {
-    nextTick(() => scrollActiveIntoView());
+    nextTick(() => {
+        scrollActiveIntoView();
+        // Close submenu if current route is not a submenu route
+        if (!isAnySubmenuRouteActive.value && openSubmenu.value !== null) {
+            openSubmenu.value = null;
+        }
+    });
 }
 
 onMounted(() => {
@@ -789,13 +796,17 @@ const isAnySubmenuRouteActive = computed(() => {
 
 const isSubmenuOpen = (groupIndex, itemIndex) => {
     const key = `${groupIndex}-${itemIndex}`;
-    return (
-        openSubmenu.value === key ||
-        (isAnySubmenuRouteActive.value &&
-            menuGroups[groupIndex].items[itemIndex].subItems?.some((subItem) =>
-                isActive(subItem.path)
-            ))
+    const item = menuGroups[groupIndex].items[itemIndex];
+
+    // Check if any submenu route is active for this specific item
+    const hasActiveSubmenuRoute = item.subItems?.some((subItem) =>
+        isActive(subItem.pathName ? route(subItem.pathName) : subItem.path)
     );
+
+    // Open submenu if:
+    // 1. Manually toggled (openSubmenu.value === key), OR
+    // 2. Route matches a submenu of this item (auto-open)
+    return openSubmenu.value === key || hasActiveSubmenuRoute;
 };
 
 const startTransition = (el) => {
