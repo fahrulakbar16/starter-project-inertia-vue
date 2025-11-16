@@ -9,8 +9,10 @@ class LoginAction
 {
     /**
      * Attempt to login user.
+     *
+     * @throws \Exception
      */
-    public function execute(Request $request): array
+    public function execute(Request $request): void
     {
         $userField = filter_var($request->input('user'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
@@ -21,38 +23,24 @@ class LoginAction
 
         $remember = $request->boolean('remember');
 
-        if (Auth::attempt($credentials, $remember)) {
-            $user = Auth::user();
-
-            // Check if user status is active
-            if ($user->status === 'inactive') {
-                Auth::logout();
-                return [
-                    'success' => false,
-                    'message' => 'Akun Anda tidak aktif. Silakan hubungi administrator.',
-                ];
-            }
-
-            if ($user->status === 'pending') {
-                Auth::logout();
-                return [
-                    'success' => false,
-                    'message' => 'Akun Anda masih menunggu verifikasi. Silakan hubungi administrator.',
-                ];
-            }
-
-            $request->session()->regenerate();
-
-            return [
-                'success' => true,
-                'message' => 'Login berhasil',
-            ];
+        if (!Auth::attempt($credentials, $remember)) {
+            throw new \Exception('Username atau Password salah');
         }
 
-        return [
-            'success' => false,
-            'message' => 'Username atau Password salah',
-        ];
+        $user = Auth::user();
+
+        // Check if user status is active
+        if ($user->status === 'inactive') {
+            Auth::logout();
+            throw new \Exception('Akun Anda tidak aktif. Silakan hubungi administrator.');
+        }
+
+        if ($user->status === 'pending') {
+            Auth::logout();
+            throw new \Exception('Akun Anda masih menunggu verifikasi. Silakan hubungi administrator.');
+        }
+
+        $request->session()->regenerate();
     }
 }
 

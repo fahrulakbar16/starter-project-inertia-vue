@@ -17,13 +17,13 @@ class AuthController extends Controller
 
     public function auth(LoginRequest $request)
     {
-        $result = app(LoginAction::class)->execute($request);
+        try {
+            app(LoginAction::class)->execute($request);
 
-        if ($result['success']) {
-            return redirect()->intended('/dashboard')->with('success', $result['message']);
+            return redirect()->intended('/dashboard')->with('success', 'Login berhasil');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        return redirect()->back()->with('error', $result['message']);
     }
 
     public function logout(Request $request)
