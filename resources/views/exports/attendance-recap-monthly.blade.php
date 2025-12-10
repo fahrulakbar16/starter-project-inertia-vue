@@ -85,7 +85,7 @@
 </head>
 
 <body>
-    <div class="title">REKAP KEHADIRAN KARYAWAN HENSKRISTAL</div>
+    <div class="title">EMPLOYEE ATTENDANCE RECAP</div>
     <div class="subtitle">Bulan: {{ $monthName }} {{ $year }}</div>
 
     <table>

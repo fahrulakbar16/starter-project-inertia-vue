@@ -38,6 +38,6 @@ import { computed } from "vue";
 const page = usePage();
 
 // Website settings
-const siteName = computed(() => page.props.settings?.site_name || 'Henskristal');
-const siteDescription = computed(() => page.props.settings?.site_description || 'Ice Solution');
+const siteName = computed(() => page.props.settings?.site_name || 'Starter Project');
+const siteDescription = computed(() => page.props.settings?.site_description || 'Laravel Inertia Vue');
 </script>

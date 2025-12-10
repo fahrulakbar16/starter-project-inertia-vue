@@ -552,9 +552,9 @@ const { colors, withOpacity } = useColors();
 
 console.log("=== PAGE PROPS ===", page.props.settings);
 // Website settings
-const logoUrl = computed(() => page.props.settings?.logo_main_url || page.props.settings?.logo[1].value || '/images/logo/henskristal.png');
-// const siteName = computed(() => page.props.settings?.site_name || page.props.settings?.general[1].value || 'Henskristal');
-// const siteDescription = computed(() => page.props.settings?.site_description || page.props.settings?.general[0].value || 'Ice Solution');
+const logoUrl = computed(() => page.props.settings?.logo_main_url || page.props.settings?.logo[1].value || '/images/logo/logo.png');
+// const siteName = computed(() => page.props.settings?.site_name || page.props.settings?.general[1].value || 'Starter Project');
+// const siteDescription = computed(() => page.props.settings?.site_description || page.props.settings?.general[0].value || 'Laravel Inertia Vue');
 
 // Computed styles for dynamic colors
 const primaryColorStyle = computed(() => ({

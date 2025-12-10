@@ -8,9 +8,9 @@
     <title inertia>{{ config('app.name', 'Laravel') }}</title>
     @php
         $favicon = \App\Models\Setting::get('logo_favicon');
-        $faviconUrl = $favicon && is_string($favicon) 
+        $faviconUrl = $favicon && is_string($favicon)
             ? (str_starts_with($favicon, 'http') ? $favicon : asset('storage/' . $favicon))
-            : asset('/images/logo/henskristal.png');
+            : asset('/images/logo/logo.png');
     @endphp
     <link rel="shortcut icon" href="{{ $faviconUrl }}" />
 

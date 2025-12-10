@@ -22,7 +22,7 @@ import { computed } from "vue";
 const page = usePage();
 
 // Website settings
-const logoUrl = computed(() => page.props.settings?.logo_main_url || '/images/logo/henskristal.png');
-const siteName = computed(() => page.props.settings?.site_name || 'Henskristal');
-const siteDescription = computed(() => page.props.settings?.site_description || 'Ice Solution');
+const logoUrl = computed(() => page.props.settings?.logo_main_url || '/images/logo/logo.png');
+const siteName = computed(() => page.props.settings?.site_name || 'Starter Project');
+const siteDescription = computed(() => page.props.settings?.site_description || 'Laravel Inertia Vue');
 </script>
