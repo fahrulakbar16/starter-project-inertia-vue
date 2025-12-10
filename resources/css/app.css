@@ -17,17 +17,36 @@ body {
     @apply font-outfit bg-gray-50;
 }
 
-/* CSS Variables for dynamic colors - TailAdmin Theme */
+/* CSS Variables for dynamic colors - Starter Project Theme */
 :root {
-    /* Brand colors */
-    --color-brand-500: #465fff;
-    --color-brand-600: #3641f5;
-    --color-brand-400: #7592ff;
-
-    /* Primary color (using brand as primary) */
+    /* Primary colors (default: brand blue) */
     --color-primary: #465fff;
+    --color-primary-50: #ecf3ff;
+    --color-primary-100: #dde9ff;
+    --color-primary-200: #c2d6ff;
+    --color-primary-300: #9cb9ff;
+    --color-primary-400: #7592ff;
+    --color-primary-500: #465fff;
+    --color-primary-600: #3641f5;
+    --color-primary-700: #2a31d8;
+    --color-primary-800: #252dae;
+    --color-primary-900: #262e89;
+
+    /* Secondary colors (default: purple) */
     --color-secondary: #8B5CF6;
-    --color-accent: #12b76a;
+    --color-secondary-50: #f4ebff;
+    --color-secondary-100: #e9d5ff;
+    --color-secondary-200: #d8b4fe;
+    --color-secondary-300: #c084fc;
+    --color-secondary-400: #a855f7;
+    --color-secondary-500: #8B5CF6;
+    --color-secondary-600: #7c3aed;
+    --color-secondary-700: #6d28d9;
+    --color-secondary-800: #5b21b6;
+    --color-secondary-900: #4c1d95;
+
+    /* Accent colors */
+    --color-accent: #10B981;
     --color-success: #12b76a;
     --color-warning: #f79009;
     --color-error: #f04438;
@@ -36,11 +55,16 @@ body {
     /* RGB values for opacity support */
     --color-primary-rgb: 70, 95, 255;
     --color-secondary-rgb: 139, 92, 246;
-    --color-accent-rgb: 18, 183, 106;
+    --color-accent-rgb: 16, 185, 129;
     --color-success-rgb: 18, 183, 106;
     --color-warning-rgb: 247, 144, 9;
     --color-error-rgb: 240, 68, 56;
     --color-info-rgb: 11, 165, 236;
+
+    /* Brand colors (alias to primary for backward compatibility) */
+    --color-brand-500: var(--color-primary-500);
+    --color-brand-600: var(--color-primary-600);
+    --color-brand-400: var(--color-primary-400);
 }
 
 /* Ensure NProgress bar is always visible above headers */
@@ -72,7 +96,13 @@ body {
 }
 
 .btn-primary:hover {
-    filter: brightness(0.9);
+    background-color: var(--color-primary-600) !important;
+    filter: brightness(0.95);
+}
+
+.btn-primary:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.2) !important;
 }
 
 .text-primary {
@@ -83,11 +113,31 @@ body {
     background-color: var(--color-primary) !important;
 }
 
+.bg-primary-light {
+    background-color: var(--color-primary-50) !important;
+}
+
 .border-primary {
     border-color: var(--color-primary) !important;
 }
 
 .ring-primary {
+    --tw-ring-color: var(--color-primary) !important;
+}
+
+.hover\:bg-primary:hover {
+    background-color: var(--color-primary-600) !important;
+}
+
+.hover\:text-primary:hover {
+    color: var(--color-primary) !important;
+}
+
+.focus\:border-primary:focus {
+    border-color: var(--color-primary) !important;
+}
+
+.focus\:ring-primary:focus {
     --tw-ring-color: var(--color-primary) !important;
 }
 
@@ -138,11 +188,11 @@ body {
     }
 
     .menu-item-active {
-        @apply bg-brand-50 text-brand-500 dark:text-brand-400;
+        @apply bg-primary-50 text-primary-600 dark:text-primary-400;
     }
 
     .dark .menu-item-active {
-        background-color: rgba(70, 95, 255, 0.12);
+        background-color: rgba(220, 38, 38, 0.12);
     }
 
     .menu-item-inactive {
@@ -154,7 +204,7 @@ body {
     }
 
     .menu-item-icon-active {
-        @apply fill-brand-500 dark:fill-brand-400;
+        @apply fill-primary-600 dark:fill-primary-400;
     }
 
     .menu-item-icon-inactive {
@@ -166,7 +216,7 @@ body {
     }
 
     .menu-item-arrow-active {
-        @apply rotate-180 stroke-brand-500 dark:stroke-brand-400;
+        @apply rotate-180 stroke-primary-600 dark:stroke-primary-400;
     }
 
     .menu-item-arrow-inactive {
@@ -178,11 +228,11 @@ body {
     }
 
     .menu-dropdown-item-active {
-        @apply bg-brand-50 text-brand-500 dark:text-brand-400;
+        @apply bg-primary-50 text-primary-600 dark:text-primary-400;
     }
 
     .dark .menu-dropdown-item-active {
-        background-color: rgba(70, 95, 255, 0.12);
+        background-color: rgba(220, 38, 38, 0.12);
     }
 
     .menu-dropdown-item-inactive {
@@ -194,27 +244,27 @@ body {
     }
 
     .menu-dropdown-badge {
-        @apply text-brand-500 dark:text-brand-400 block rounded-full px-2.5 py-0.5 text-xs font-medium uppercase;
+        @apply text-primary-600 dark:text-primary-400 block rounded-full px-2.5 py-0.5 text-xs font-medium uppercase;
     }
 
     .menu-dropdown-badge-active {
-        @apply bg-brand-100;
+        @apply bg-primary-100;
     }
 
     .dark .menu-dropdown-badge-active {
-        background-color: rgba(70, 95, 255, 0.2);
+        background-color: rgba(220, 38, 38, 0.2);
     }
 
     .menu-dropdown-badge-inactive {
-        @apply bg-brand-50 group-hover:bg-brand-100;
+        @apply bg-primary-50 group-hover:bg-primary-100;
     }
 
     .dark .menu-dropdown-badge-inactive {
-        background-color: rgba(70, 95, 255, 0.15);
+        background-color: rgba(220, 38, 38, 0.15);
     }
 
     .dark .menu-dropdown-badge-inactive:hover {
-        background-color: rgba(70, 95, 255, 0.2);
+        background-color: rgba(220, 38, 38, 0.2);
     }
 
     .no-scrollbar {

@@ -26,7 +26,7 @@
                                             </label>
                                             <input type="text" id="username" v-model="form.user"
                                                 placeholder="Enter your email or username"
-                                                class="px-4 py-3 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 dark:bg-gray-800 placeholder:text-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-600 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-indigo-500 transition-colors" />
+                                                class="px-4 py-3 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 dark:bg-gray-800 placeholder:text-gray-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 dark:border-gray-600 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-primary-500 transition-colors" />
                                         </div>
                                         <!-- Password -->
                                         <div>
@@ -36,14 +36,14 @@
                                                     Password
                                                 </label>
                                                 <a href="/forgot-password"
-                                                    class="text-xs font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors">
+                                                    class="text-xs font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors">
                                                     Forgot password?
                                                 </a>
                                             </div>
                                             <div class="relative">
                                                 <input v-model="form.password" :type="showPassword ? 'text' : 'password'"
                                                     id="password" placeholder="Enter your password"
-                                                    class="px-4 py-3 pr-11 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 dark:bg-gray-800 placeholder:text-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-600 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-indigo-500 transition-colors" />
+                                                    class="px-4 py-3 pr-11 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 dark:bg-gray-800 placeholder:text-gray-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 dark:border-gray-600 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-primary-500 transition-colors" />
                                                 <button type="button" @click="togglePasswordVisibility"
                                                     class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 transition-colors">
                                                     <svg v-if="!showPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,14 +61,14 @@
                                         <div class="flex justify-between items-center">
                                             <label class="inline-flex gap-2 items-center select-none cursor-pointer">
                                                 <input type="checkbox" v-model="form.remember"
-                                                    class="w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                    class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                                 <span class="text-sm text-gray-700 dark:text-gray-300">Remember me</span>
                                             </label>
                                         </div>
                                         <!-- Button -->
                                         <div>
                                             <button type="submit" :disabled="form.processing"
-                                                class="flex gap-2 justify-center items-center px-4 py-3 w-full text-sm font-semibold text-white bg-indigo-600 rounded-lg transition-all shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                                                class="flex gap-2 justify-center items-center px-4 py-3 w-full text-sm font-semibold text-white bg-primary-600 rounded-lg transition-all shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
                                                 <span v-if="form.processing">Signing in...</span>
                                                 <span v-else>Sign In</span>
                                                 <svg v-if="!form.processing" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4"
@@ -86,7 +86,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="hidden relative items-center w-full h-full bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-800 lg:w-1/2 dark:from-indigo-900 dark:via-purple-900 dark:to-indigo-950 lg:grid">
+                <div class="hidden relative items-center w-full h-full bg-gradient-to-br from-primary-600 via-secondary-600 to-primary-800 lg:w-1/2 dark:from-primary-900 dark:via-secondary-900 dark:to-primary-950 lg:grid">
                     <div class="flex justify-center items-center px-8 text-white z-1">
                         <common-grid-shape />
                         <!-- Carousel Container -->

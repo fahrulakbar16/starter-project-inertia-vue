@@ -4,7 +4,7 @@
             :class="[
                 'w-3 h-3 -mb-1',
                 active && direction === 'asc'
-                    ? 'text-blue-600 dark:text-blue-400'
+                    ? 'text-primary-600 dark:text-primary-400'
                     : 'text-gray-400 dark:text-gray-600',
             ]"
             fill="currentColor"
@@ -18,7 +18,7 @@
             :class="[
                 'w-3 h-3 -mt-1',
                 active && direction === 'desc'
-                    ? 'text-blue-600 dark:text-blue-400'
+                    ? 'text-primary-600 dark:text-primary-400'
                     : 'text-gray-400 dark:text-gray-600',
             ]"
             fill="currentColor"

@@ -2,7 +2,6 @@
 import { ref, onBeforeUnmount, computed } from "vue";
 import { useForm, usePage, router } from "@inertiajs/vue3";
 import Swal from "sweetalert2";
-import { useColors } from "@/Composables/useColors";
 
 // Terima user via props (opsional) agar kompatibel dengan pemanggilan dari Show.vue
 const props = defineProps({
@@ -10,7 +9,6 @@ const props = defineProps({
 });
 
 const page = usePage();
-const { colors, withOpacity } = useColors();
 const user = computed(() => props.user ?? page.props.auth?.user ?? {});
 
 const isEditing = ref(false);
@@ -172,9 +170,7 @@ async function submitAll() {
                 class="flex flex-col items-center justify-center gap-4 p-8 border-b lg:border-b-0 lg:border-r"
             >
                 <div
-                    class="flex items-center justify-center w-56 h-56 overflow-hidden rounded-full"
-                    :style="{ backgroundColor: withOpacity('primary', 0.1), borderColor: withOpacity('primary', 0.2) }"
-                    style="border: 1px solid"
+                    class="flex items-center justify-center w-56 h-56 overflow-hidden rounded-full bg-primary-50 border border-primary-200"
                 >
                     <img
                         v-if="user?.profile_photo_url"
@@ -184,8 +180,7 @@ async function submitAll() {
                     />
                     <span
                         v-else
-                        class="text-6xl font-semibold select-none"
-                        :style="{ color: colors.primary }"
+                        class="text-6xl font-semibold select-none text-primary-600"
                     >
                         {{
                             (user?.name || user?.username || "?")
@@ -255,9 +250,7 @@ async function submitAll() {
                 class="flex flex-col items-center justify-center gap-4 p-8 border-b lg:border-b-0 lg:border-r"
             >
                 <div
-                    class="flex items-center justify-center w-56 h-56 overflow-hidden rounded-full"
-                    :style="{ backgroundColor: withOpacity('primary', 0.1), borderColor: withOpacity('primary', 0.2) }"
-                    style="border: 1px solid"
+                    class="flex items-center justify-center w-56 h-56 overflow-hidden rounded-full bg-primary-50 border border-primary-200"
                 >
                     <img
                         v-if="photoPreview"
@@ -267,8 +260,7 @@ async function submitAll() {
                     />
                     <span
                         v-else
-                        class="text-6xl font-semibold select-none"
-                        :style="{ color: colors.primary }"
+                        class="text-6xl font-semibold select-none text-primary-600"
                     >
                         {{
                             (user?.name || user?.username || "?")

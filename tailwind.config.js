@@ -20,7 +20,55 @@ export default {
                 outfit: ["Outfit", "sans-serif"],
             },
             colors: {
-                // Brand colors from TailAdmin
+                // Primary colors (using brand as primary)
+                primary: {
+                    25: "#f2f7ff",
+                    50: "#ecf3ff",
+                    100: "#dde9ff",
+                    200: "#c2d6ff",
+                    300: "#9cb9ff",
+                    400: "#7592ff",
+                    500: "#465fff",
+                    600: "#3641f5",
+                    700: "#2a31d8",
+                    800: "#252dae",
+                    900: "#262e89",
+                    950: "#161950",
+                    DEFAULT: "#465fff",
+                },
+                // Secondary colors (Purple)
+                secondary: {
+                    25: "#faf5ff",
+                    50: "#f4ebff",
+                    100: "#e9d5ff",
+                    200: "#d8b4fe",
+                    300: "#c084fc",
+                    400: "#a855f7",
+                    500: "#8B5CF6",
+                    600: "#7c3aed",
+                    700: "#6d28d9",
+                    800: "#5b21b6",
+                    900: "#4c1d95",
+                    950: "#2e1065",
+                    DEFAULT: "#8B5CF6",
+                },
+                // Accent colors (Green)
+                accent: {
+                    25: "#f6fef9",
+                    50: "#ecfdf3",
+                    100: "#d1fadf",
+                    200: "#a6f4c5",
+                    300: "#6ce9a6",
+                    400: "#32d583",
+                    500: "#10B981",
+                    600: "#039855",
+                    700: "#027a48",
+                    800: "#05603a",
+                    900: "#054f31",
+                    950: "#053321",
+                    DEFAULT: "#10B981",
+                },
+                // Brand colors from TailAdmin (alias to primary)
                 brand: {
                     25: "#f2f7ff",
                     50: "#ecf3ff",
@@ -133,7 +181,7 @@ export default {
                 "theme-md": "0px 4px 8px -2px rgba(16, 24, 40, 0.1), 0px 2px 4px -2px rgba(16, 24, 40, 0.06)",
                 "theme-lg": "0px 12px 16px -4px rgba(16, 24, 40, 0.08), 0px 4px 6px -2px rgba(16, 24, 40, 0.03)",
                 "theme-xl": "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
-                "focus-ring": "0px 0px 0px 4px rgba(70, 95, 255, 0.12)",
+                "focus-ring": "0px 0px 0px 4px rgba(var(--color-primary-rgb, 70, 95, 255), 0.12)",
             },
             screens: {
                 "2xsm": "375px",

@@ -21,7 +21,7 @@ const emit = defineEmits(['page-changed', 'per-page-changed']);
 
 const goTo = (url) => {
     if (!url) return;
-    
+
     // If client-side pagination, emit event instead of router.get
     if (props.clientSide) {
         const urlParams = new URLSearchParams(url.split('?')[1]);
@@ -29,7 +29,7 @@ const goTo = (url) => {
         emit('page-changed', pageNum);
         return;
     }
-    
+
     router.get(
         url,
         {},
@@ -39,14 +39,14 @@ const goTo = (url) => {
 
 const changePerPage = (event) => {
     const newPerPage = parseInt(event.target.value);
-    
+
     // If client-side pagination, emit event
     if (props.clientSide) {
         emit('per-page-changed', newPerPage);
         emit('page-changed', 1); // Reset to page 1
         return;
     }
-    
+
     const currentUrl = new URL(window.location.href);
     currentUrl.searchParams.set("per_page", newPerPage);
     currentUrl.searchParams.delete("page"); // Reset ke halaman pertama saat ganti per page
@@ -102,7 +102,7 @@ const currentPerPage = computed(() => {
                         id="per-page"
                         :value="currentPerPage"
                         @change="changePerPage"
-                        class="px-3 py-1.5 text-sm bg-white rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        class="px-3 py-1.5 text-sm bg-white rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     >
                         <option
                             v-for="option in perPageOptions"
@@ -144,7 +144,7 @@ const currentPerPage = computed(() => {
                             :class="[
                                 'relative inline-flex items-center rounded px-4 py-2 text-sm font-semibold focus:z-20',
                                 link.active
-                                    ? 'bg-blue-500 text-white'
+                                    ? 'bg-primary-500 text-white'
                                     : 'text-gray-700 border border-gray-300 hover:bg-gray-50',
                             ]"
                             v-html="link.label"

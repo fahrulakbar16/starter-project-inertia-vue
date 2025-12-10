@@ -7,14 +7,14 @@
             <template v-if="item.href">
                 <Link
                     :href="item.href"
-                    class="hover:text-blue-500 hover:underline"
+                    class="hover:text-primary-500 hover:underline"
                 >
                     {{ item.label }}
                 </Link>
             </template>
             <template v-else>
                 <span
-                    :class="[index === items.length - 1 ? 'text-sky-500' : '']"
+                    :class="[index === items.length - 1 ? 'text-primary-500' : '']"
                     >{{ item.label }}</span
                 >
             </template>

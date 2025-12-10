@@ -41,12 +41,12 @@
                     <div
                         class="px-8 py-4 border-b flex justify-between items-center"
                     >
-                        <h3 class="text-lg font-medium text-blue-500">
+                        <h3 class="text-lg font-medium text-primary-500">
                             {{ title }}
                         </h3>
                         <button
                             @click="close"
-                            class="text-blue-500 hover:text-blue-700 py-1 px-2.5 rounded-lg bg-white dark:bg-gray-800 border border-gray-400"
+                            class="text-primary-500 hover:text-primary-700 py-1 px-2.5 rounded-lg bg-white dark:bg-gray-800 border border-gray-400"
                         >
                             ✕
                         </button>
@@ -72,7 +72,7 @@
                         <button
                             v-if="confirmText"
                             type="button"
-                            class="px-4 py-2 bg-blue-500 w-full text-white rounded-lg hover:bg-blue-600"
+                            class="px-4 py-2 bg-primary-500 w-full text-white rounded-lg hover:bg-primary-600"
                             @click="confirm"
                         >
                             {{ confirmText }}

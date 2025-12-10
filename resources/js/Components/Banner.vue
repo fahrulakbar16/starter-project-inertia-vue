@@ -1,10 +1,8 @@
 <script setup>
-import { ref, watchEffect, computed } from 'vue';
+import { ref, watchEffect } from 'vue';
 import { usePage } from '@inertiajs/vue3';
-import { useColors } from '@/Composables/useColors';
 
 const page = usePage();
-const { colors } = useColors();
 const show = ref(true);
 const style = ref('success');
 const message = ref('');
@@ -14,27 +12,25 @@ watchEffect(async () => {
     message.value = page.props.jetstream.flash?.banner || '';
     show.value = true;
 });
-
-// Computed styles for banner
-const bannerStyle = computed(() => ({
-    backgroundColor: style.value === 'success' ? colors.value.success : colors.value.error,
-}));
-
-const iconBgStyle = computed(() => ({
-    backgroundColor: style.value === 'success' 
-        ? colors.value.success 
-        : colors.value.error,
-    filter: 'brightness(0.9)',
-}));
 </script>
 
 <template>
     <div>
-        <div v-if="show && message" :style="bannerStyle">
+        <div
+            v-if="show && message"
+            :class="[
+                style === 'success' ? 'bg-success-500' : 'bg-error-500'
+            ]"
+        >
             <div class="max-w-screen-xl mx-auto py-2 px-3 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between flex-wrap">
                     <div class="w-0 flex-1 flex items-center min-w-0">
-                        <span class="flex p-2 rounded-lg" :style="iconBgStyle">
+                        <span
+                            class="flex p-2 rounded-lg"
+                            :class="[
+                                style === 'success' ? 'bg-success-600' : 'bg-error-600'
+                            ]"
+                        >
                             <svg v-if="style == 'success'" class="size-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>

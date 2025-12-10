@@ -34,10 +34,10 @@
                         height="45"
                     />
                     <div class="flex flex-col leading-tight">
-                        <div class="font-semibold text-base tracking-tight" :style="primaryColorStyle">
+                        <div class="font-semibold text-base tracking-tight text-primary-600">
                             {{ siteName }}
                         </div>
-                        <div class="text-xs text-gray-500" :style="{ color: colors.secondary }">
+                        <div class="text-xs text-gray-500 text-secondary-500">
                             {{ siteDescription }}
                         </div>
                     </div>
@@ -112,7 +112,7 @@
                                             item.name === 'Daftar Pengajuan' &&
                                             pendingCount > 0
                                         "
-                                        class="ml-2 px-2 py-0.5 text-xs font-semibold text-white bg-red-500 rounded-full"
+                                        class="ml-2 px-2 py-0.5 text-xs font-semibold text-white bg-primary-500 rounded-full"
                                     >
                                         {{ pendingCount }}
                                     </span>
@@ -255,10 +255,9 @@
                                                                           )
                                                                         : subItem.path
                                                                 )
-                                                                    ? ''
-                                                                    : 'bg-red-500',
+                                                                    ? 'bg-primary-500'
+                                                                    : 'bg-primary-500',
                                                             ]"
-                                                            :style="isActive(subItem.pathName ? route(subItem.pathName) : subItem.path) ? { backgroundColor: colors.primary } : {}"
                                                         >
                                                             {{
                                                                 getPendingCountByType(
@@ -284,10 +283,9 @@
                                                                           )
                                                                         : subItem.path
                                                                 )
-                                                                    ? ''
-                                                                    : 'bg-red-500',
+                                                                    ? 'bg-primary-500'
+                                                                    : 'bg-primary-500',
                                                             ]"
-                                                            :style="isActive(subItem.pathName ? route(subItem.pathName) : subItem.path) ? { backgroundColor: colors.primary } : {}"
                                                         >
                                                             {{
                                                                 getPendingCountByType(
@@ -313,10 +311,9 @@
                                                                           )
                                                                         : subItem.path
                                                                 )
-                                                                    ? ''
-                                                                    : 'bg-red-500',
+                                                                    ? 'bg-primary-500'
+                                                                    : 'bg-primary-500',
                                                             ]"
-                                                            :style="isActive(subItem.pathName ? route(subItem.pathName) : subItem.path) ? { backgroundColor: colors.primary } : {}"
                                                         >
                                                             {{
                                                                 getPendingCountByType(
@@ -342,10 +339,9 @@
                                                                           )
                                                                         : subItem.path
                                                                 )
-                                                                    ? ''
-                                                                    : 'bg-red-500',
+                                                                    ? 'bg-primary-500'
+                                                                    : 'bg-primary-500',
                                                             ]"
-                                                            :style="isActive(subItem.pathName ? route(subItem.pathName) : subItem.path) ? { backgroundColor: colors.primary } : {}"
                                                         >
                                                             {{
                                                                 getPendingCountByType(
@@ -371,10 +367,9 @@
                                                                           )
                                                                         : subItem.path
                                                                 )
-                                                                    ? ''
-                                                                    : 'bg-red-500',
+                                                                    ? 'bg-primary-500'
+                                                                    : 'bg-primary-500',
                                                             ]"
-                                                            :style="isActive(subItem.pathName ? route(subItem.pathName) : subItem.path) ? { backgroundColor: colors.primary } : {}"
                                                         >
                                                             {{
                                                                 getPendingCountByType(
@@ -400,10 +395,9 @@
                                                                           )
                                                                         : subItem.path
                                                                 )
-                                                                    ? ''
-                                                                    : 'bg-red-500',
+                                                                    ? 'bg-primary-500'
+                                                                    : 'bg-primary-500',
                                                             ]"
-                                                            :style="isActive(subItem.pathName ? route(subItem.pathName) : subItem.path) ? { backgroundColor: colors.primary } : {}"
                                                         >
                                                             {{
                                                                 getPendingCountByType(
@@ -427,10 +421,9 @@
                                                                           )
                                                                         : subItem.path
                                                                 )
-                                                                    ? ''
+                                                                    ? 'bg-primary-50 text-primary-600'
                                                                     : 'bg-gray-100 text-gray-700 group-hover:bg-gray-200 dark:bg-white/10 dark:text-gray-300',
                                                             ]"
-                                                            :style="isActive(subItem.pathName ? route(subItem.pathName) : subItem.path) ? { backgroundColor: withOpacity('primary', 0.1), color: colors.primary } : {}"
                                                         >
                                                             {{
                                                                 sidebarCounts.on_progress
@@ -440,6 +433,9 @@
                                                             v-if="subItem.new"
                                                             :class="[
                                                                 'block rounded-full px-2.5 py-0.5 text-xs font-medium uppercase',
+                                                                isActive(subItem.pathName ? route(subItem.pathName) : subItem.path)
+                                                                    ? 'bg-primary-100 text-primary-600'
+                                                                    : 'bg-primary-50 text-primary-500',
                                                                 {
                                                                     'group-hover:bg-opacity-20':
                                                                         !isActive(
@@ -451,12 +447,6 @@
                                                                         ),
                                                                 },
                                                             ]"
-                                                            :style="{
-                                                                color: colors.primary,
-                                                                backgroundColor: isActive(subItem.pathName ? route(subItem.pathName) : subItem.path)
-                                                                    ? withOpacity('primary', 0.1)
-                                                                    : withOpacity('primary', 0.05)
-                                                            }"
                                                         >
                                                             new
                                                         </span>
@@ -464,6 +454,9 @@
                                                             v-if="subItem.pro"
                                                             :class="[
                                                                 'block rounded-full px-2.5 py-0.5 text-xs font-medium uppercase',
+                                                                isActive(subItem.pathName ? route(subItem.pathName) : subItem.path)
+                                                                    ? 'bg-primary-100 text-primary-600'
+                                                                    : 'bg-primary-50 text-primary-500',
                                                                 {
                                                                     'group-hover:bg-opacity-20':
                                                                         !isActive(
@@ -475,12 +468,6 @@
                                                                         ),
                                                                 },
                                                             ]"
-                                                            :style="{
-                                                                color: colors.primary,
-                                                                backgroundColor: isActive(subItem.pathName ? route(subItem.pathName) : subItem.path)
-                                                                    ? withOpacity('primary', 0.1)
-                                                                    : withOpacity('primary', 0.05)
-                                                            }"
                                                         >
                                                             pro
                                                         </span>
@@ -544,32 +531,15 @@ import { useSidebar } from "@/Composables/useSidebar";
 import { computed, ref, onMounted, onBeforeUnmount, nextTick } from "vue";
 import { usePage } from "@inertiajs/vue3";
 import { useAuth } from "@/Composables/useAuth";
-import { useColors } from "@/Composables/useColors";
 
 const { user, is, can } = useAuth();
 const page = usePage();
-const { colors, withOpacity } = useColors();
 
 console.log("=== PAGE PROPS ===", page.props.settings);
 // Website settings
 const logoUrl = computed(() => page.props.settings?.logo_main_url || page.props.settings?.logo[1].value || '/images/logo/logo.png');
 // const siteName = computed(() => page.props.settings?.site_name || page.props.settings?.general[1].value || 'Starter Project');
 // const siteDescription = computed(() => page.props.settings?.site_description || page.props.settings?.general[0].value || 'Laravel Inertia Vue');
-
-// Computed styles for dynamic colors
-const primaryColorStyle = computed(() => ({
-    color: colors.value.primary,
-}));
-
-const primaryBgStyle = computed(() => ({
-    backgroundColor: withOpacity('primary', 0.1),
-    color: colors.value.primary,
-}));
-
-const primaryBgDarkStyle = computed(() => ({
-    backgroundColor: withOpacity('primary', 0.12),
-    color: colors.value.primary,
-}));
 
 const sidebarCounts = computed(
     () => page.props.sidebarCounts || { total: 0, on_progress: 0 }

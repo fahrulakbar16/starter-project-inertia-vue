@@ -125,7 +125,7 @@ const pageList = computed(() => {
                     :class="[
                     'relative inline-flex items-center rounded px-4 py-2 text-sm font-semibold focus:z-20',
                     p === currentPage
-                        ? 'bg-blue-500 text-white focus-visible:outline-indigo-500'
+                        ? 'bg-primary-500 text-white focus-visible:outline-primary-500'
                         : 'text-gray-500 inset-ring inset-ring-gray-700 hover:bg-black/5',
                     ]"
                 >

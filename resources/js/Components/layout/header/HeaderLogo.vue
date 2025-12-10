@@ -7,10 +7,10 @@
             height="45"
         />
         <div class="flex flex-col leading-tight">
-            <div class="text-blue-600 font-bold tracking-wider">
+            <div class="text-primary-600 font-bold tracking-wider">
                 {{ siteName }}
             </div>
-            <div class="text-sky-500 italic text-sm">{{ siteDescription }}</div>
+            <div class="text-primary-400 italic text-sm">{{ siteDescription }}</div>
         </div>
     </Link>
 </template>

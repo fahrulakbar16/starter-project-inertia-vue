@@ -72,7 +72,7 @@ const currentPerPage = computed(() => {
                         id="per-page"
                         :value="currentPerPage"
                         @change="changePerPage"
-                        class="px-2 py-1 text-sm border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        class="px-2 py-1 text-sm border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     >
                         <option
                             v-for="option in perPageOptions"
@@ -132,7 +132,7 @@ const currentPerPage = computed(() => {
                             :class="[
                                 'relative inline-flex items-center rounded px-4 py-2 text-sm font-semibold focus:z-20',
                                 link.active
-                                    ? 'bg-blue-500 text-white focus-visible:outline-indigo-500'
+                                    ? 'bg-primary-500 text-white focus-visible:outline-primary-500'
                                     : 'text-gray-500 inset-ring inset-ring-gray-700 hover:bg-black/5',
                             ]"
                             v-html="link.label"
